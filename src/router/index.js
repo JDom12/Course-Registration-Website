@@ -5,6 +5,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import FormView from "../views/FormView.vue";
 import FetchView from "../views/FetchView.vue";
+import RegisterView from "../views/RegisterView.vue";
 
 const router = createRouter({
   // the history mode determines how vue router interacts with the url.
@@ -34,6 +35,11 @@ const router = createRouter({
       path: "/fetch",
       name: "fetch",
       component: FetchView,
+    },
+    {
+      path: "/register",
+      name: "register",
+      component: RegisterView,
     },
   ],
 });
