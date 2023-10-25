@@ -20,6 +20,9 @@
           <li>
             <RouterLink to="/register">Register for Course</RouterLink>
           </li>
+          <li>
+            <RouterLink to="/course">View Courses</RouterLink>
+          </li>
         </ul>
       </nav>
     </div>
