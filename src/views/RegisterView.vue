@@ -14,6 +14,7 @@
       <input type="text" id="courseid" name="Course" v-model="courseName" />
       <button type="submit">Save</button>
     </form>
+    
 
     <ul>
       <!--
@@ -47,7 +48,7 @@
 
 <script setup>
 import { ref } from "vue";
-const apiName = 'InsertAPINameHere'; //Change to finalized API database name
+//const apiName = 'InsertAPINameHere'; //Change to finalized API database name
 
 const studentName = ref("");
 const courseName = ref("");
@@ -70,22 +71,39 @@ function studentLogin() {
 }
 
 function registerCourse() {
-  // sanitize the input by removing the whitespace from the beginning and end of newTodo.value
-  const courseToAdd = courseName.value.trim();
-  const studentToAdd = studentName.value.trim();
-  // if the sanitized input is not an empty string (i.e., an actual todo), add it to the list and reset the form
-  if (courseToAdd != "") {
-    const path = '../../Lambda_Functions/Registration/course-register.py'
-    const MyInit = {
-      headers: {},
-      queryStringParameters: {
-        'netID' : studentToAdd,
-        'courseID' : courseToAdd
-      }
-    }
-    API.post(apiName, path, MyInit)
-    ids.value.push(courseToAdd);
-    courseName.value = "";  
+  // sanitize the input by removing the whitespace from the beginning and end of the input values
+  const class_name = courseName.value.trim();
+  const netID = studentName.value.trim();
+
+  const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
+
+  const path = '/registration'; 
+
+  if (class_name !== "") {
+    
+    const url = `${endpointURL}${path}`;
+
+    // Make POST request
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        
+      },
+      body: JSON.stringify({
+        netID: netID,
+        class_name: class_name
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      ids.value.push(class_name);
+      courseName.value = "";
+    })
+    .catch(error => {
+      // Handle errors
+      console.error("Error registering course:", error);
+    });
   }
 }
 
