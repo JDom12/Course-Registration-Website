@@ -1,14 +1,17 @@
 <template>
   <main class="fetch">
-    <h2>Course Search</h2>
+    <h2>Fetch Example</h2>
     <p>
-      For the university 
+      Below we have a table of historical data on
       <a
-        href="https://catalog.uconn.edu/directory-of-courses/"
-        >course catalog</a
-      >.     </p>
+        href="https://fiscaldata.treasury.gov/datasets/record-setting-auction-data/record-setting-auction"
+        >record setting auctions of different financial security types</a
+      >. This dataset was chosen for its digestible size, and the fact that the
+      API was completely free to use without any restrictions (making it good
+      for this sort of demonstration).
+    </p>
     <label>
-      Course Type:
+      Security Type:
       <select name="type" id="type" v-model="selectedSecurityType">
         <option
           v-for="securityType in securityTypes"
@@ -22,33 +25,13 @@
     <table>
       <thead>
         <tr>
-          <th>Class ID</th>
-          <th>Class Name</th>
-          <th>Intructor</th>
-          <th>Room</th>
-          <th>Meeting Time</th>
-          <th>Prerequistes</th>
-          <th>Search Tags</th>
-          <th>Max Enrollment</th>
+          <th>Date</th>
+          <th>Highest Offer Amount</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="row in displayData" :key="row.month">
           <td>{{ row.date }}</td>
-          <td>${{ row.value }}</td>
-          <td>${{ row.value }}</td>
-          <td>${{ row.value }}</td>
-        </tr>
-        <tr v-for="row in displayData" :key="row">
-          <td>{{ row }}</td>
-          <td>${{ row }}</td>
-          <td>${{ row.value }}</td>
-          <td>${{ row.value }}</td>
-        </tr>
-        <tr v-for="row in displayData" :key="row.month">
-          <td>{{ row.date }}</td>
-          <td>${{ row.value }}</td>
-          <td>${{ row.value }}</td>
           <td>${{ row.value }}</td>
         </tr>
       </tbody>
@@ -61,11 +44,7 @@ import { ref, computed, watch } from "vue";
 import { monthNames } from "../util/constants";
 
 // the three financial security types in our api's dataset
-// const securityTypes = ["CMBs", "Bills", "Bonds", "FRNs", "Notes", "TIPS"];
-
-const securityTypes = ["ANTH", "BIO", "CSE", "PHYS", "LANG", "FREN"];
-// placeholder securityTypes
-
+const securityTypes = ["CMBs", "Bills", "Bonds", "FRNs", "Notes", "TIPS"];
 
 // store the selected value in the dropdown
 const selectedSecurityType = ref(securityTypes[0]);
@@ -134,10 +113,6 @@ const displayData = computed(() =>
   })
 );
 </script>
-
-
-
-
 
 <style>
 /* add padding around the page */

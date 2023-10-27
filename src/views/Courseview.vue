@@ -33,23 +33,32 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="row in displayData" :key="row.month">
-            <td>{{ row.date }}</td>
-            <td>${{ row.value }}</td>
-            <td>${{ row.value }}</td>
-            <td>${{ row.value }}</td>
+          <tr v-for="course in displaycourse" :key="course.ID">
+            <td>{{ course.ID }}</td>
+            <td>${{ course.intructor }}</td>
+            <td>${{ course.room }}</td>
+            <td>${{ course.meet_time }}</td>
+            <td>${{ course.prereq }}</td>
+            <td>${{ course.searchtag }}</td>
+            <td>${{ course.maxenroll }}</td>
           </tr>
-          <tr v-for="row in displayData" :key="row">
-            <td>{{ row }}</td>
-            <td>${{ row }}</td>
-            <td>${{ row.value }}</td>
-            <td>${{ row.value }}</td>
+          <tr v-for="course in displaycourse" :key="course.ID">
+            <td>{{ course.ID }}</td>
+            <td>${{ course.intructor }}</td>
+            <td>${{ course.room }}</td>
+            <td>${{ course.meet_time }}</td>
+            <td>${{ course.prereq }}</td>
+            <td>${{ course.searchtag }}</td>
+            <td>${{ course.maxenroll }}</td>
           </tr>
-          <tr v-for="row in displayData" :key="row.month">
-            <td>{{ row.date }}</td>
-            <td>${{ row.value }}</td>
-            <td>${{ row.value }}</td>
-            <td>${{ row.value }}</td>
+          <tr v-for="course in displaycourse" :key="course.ID">
+            <td>{{ course.ID }}</td>
+            <td>${{ course.intructor }}</td>
+            <td>${{ course.room }}</td>
+            <td>${{ course.meet_time }}</td>
+            <td>${{ course.prereq }}</td>
+            <td>${{ course.searchtag }}</td>
+            <td>${{ course.maxenroll }}</td>
           </tr>
         </tbody>
       </table>
@@ -68,7 +77,7 @@
   // store the endpoint for our api request
   const url = computed(
     () =>
-      `https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/record_setting_auction?sort=-record_date&filter=security_type%3Aeq%3A${selectedSecurityType.value}&fields=record_date,high_offer_amt`
+      `https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1`
   );
   // store all of the data from our api request. by default, there is no data, so this is an empty ref
   const data = ref();
@@ -114,12 +123,16 @@
   });
   // convert each item in records (noting that for this code, we don't need to worry about unfetched data!)
   // into an object that has a formatted date and the value we want to display
-  const displayData = computed(() =>
-    records.value.map((value) => {
-      const date = new Date(`${value.record_date}T00:00:00`);
+  const displaycourse = computed(() =>
+    records.value.map((course) => {
       return {
-        date: date.toLocaleDateString(),
-        value: Number(value.high_offer_amt).toFixed(2),
+      courseName: course.ID,
+      instructor: course.instructor,
+      room: course.room,
+      meet_time: course.meet_time,
+      prereq: course.prereq,
+      searchtag: course.searchtag,
+      maxenroll: course.maxenroll,
       };
     })
   );
