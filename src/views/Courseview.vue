@@ -1,15 +1,16 @@
 <template>
     <main class="fetch">
       <h2>Course Search</h2>
+      <pre>{{ rawApiData }}</pre> <!-- For Debugging Purposes -->
       <p>
         For the university 
         <a
           href="https://catalog.uconn.edu/directory-of-courses/"
           >course catalog</a
         >.     </p>
-      <label>
+      <label for="courseTypeSelect">
         Course Type:
-        <select name="type" id="type" v-model="selectedSecurityType">
+        <select name="type" id="courseTypeSelect" v-model="selectedSecurityType">
           <option
             v-for="securityType in securityTypes"
             :key="securityType"
@@ -22,43 +23,24 @@
       <table>
         <thead>
           <tr>
-            <th>Class ID</th>
             <th>Class Name</th>
             <th>Intructor</th>
             <th>Room</th>
-            <th>Meeting Time</th>
+            <th>Meeting Time</th> 
             <th>Prerequistes</th>
             <th>Search Tags</th>
             <th>Max Enrollment</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="course in displaycourse" :key="course.ID">
-            <td>{{ course.ID }}</td>
-            <td>${{ course.intructor }}</td>
-            <td>${{ course.room }}</td>
-            <td>${{ course.meet_time }}</td>
-            <td>${{ course.prereq }}</td>
-            <td>${{ course.searchtag }}</td>
-            <td>${{ course.maxenroll }}</td>
-          </tr>
-          <tr v-for="course in displaycourse" :key="course.ID">
-            <td>{{ course.ID }}</td>
-            <td>${{ course.intructor }}</td>
-            <td>${{ course.room }}</td>
-            <td>${{ course.meet_time }}</td>
-            <td>${{ course.prereq }}</td>
-            <td>${{ course.searchtag }}</td>
-            <td>${{ course.maxenroll }}</td>
-          </tr>
-          <tr v-for="course in displaycourse" :key="course.ID">
-            <td>{{ course.ID }}</td>
-            <td>${{ course.intructor }}</td>
-            <td>${{ course.room }}</td>
-            <td>${{ course.meet_time }}</td>
-            <td>${{ course.prereq }}</td>
-            <td>${{ course.searchtag }}</td>
-            <td>${{ course.maxenroll }}</td>
+          <tr v-for="course in displaycourse" :key="course.class_name">
+            <td>{{ course.class_name }}</td>
+            <td>{{ course.instructor }}</td>
+            <td>{{ course.room }}</td>
+            <td>{{ course.meeting_time }}</td>
+            <td>{{ course.pre_requisites }}</td>
+            <td>{{ course.search_tags }}</td>
+            <td>{{ course.max_enrollment }}</td>
           </tr>
         </tbody>
       </table>
@@ -70,69 +52,68 @@
   import { monthNames } from "../util/constants";
   // the three financial security types in our api's dataset
   // const securityTypes = ["CMBs", "Bills", "Bonds", "FRNs", "Notes", "TIPS"];
-  const securityTypes = ["ANTH", "BIO", "CSE", "PHYS", "LANG", "FREN"];
+  const securityTypes = ["ENG", "PHAR", "CSE", "PHYS", "LANG", "FRE"];
   // placeholder securityTypes
   // store the selected value in the dropdown
   const selectedSecurityType = ref(securityTypes[0]);
   // store the endpoint for our api request
-  const url = computed(
-    () =>
-      `https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1`
-  );
-  // store all of the data from our api request. by default, there is no data, so this is an empty ref
+
+  const rawApiData = ref(null);
   const data = ref();
-  // whenever the url changes, re-run the watcher callback which performs the fetch
-  watch(
-    url,
-    async (url, _, onCleanup) => {
-      //#region abortcontroller
-      // this is somewhat intermediate so feel free to skip, but an abort controller enables
-      // javascript to tell the browser when an asynchronous operation (such as fetching)
-      // should be cancelled for some reason. in our case here, if the user switches
-      // the commodity value in the dropdown once, and then again before the api
-      // request finishes, we can safely skip it because we need to make a new
-      // request for the new selected value. we detect when the value of url
-      // changes more than once by passing a callback to onCleanup(), which
-      // will run the next time url changes
-      const controller = new AbortController();
-      onCleanup(() => {
-        controller.abort();
-      });
-      //#endregion
-      // actually perform the fetch
-      fetch(url, { signal: controller.signal })
-        // convert the response from the server into JSON data
-        .then((res) => res.json())
-        // save the data to our data ref
-        .then((apiData) => {
-          data.value = apiData;
+
+
+  function fetchCoursesByType() {
+    const courseType = selectedSecurityType.value.trim();
+    const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
+    const path = '/all_classes';
+
+    if (courseType !== "") {
+        const url = `${endpointURL}${path}?search_tags=${encodeURIComponent(courseType)}`;
+        console.log("Constructed URL:", url);
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(apiResponse => {
+            rawApiData.value = JSON.stringify(apiResponse, null, 2);  //For debugging purposes
+            data.value = JSON.parse(apiResponse.body);  
+        })
+        .catch(error => {
+            console.error('There was an error fetching the courses:', error);
         });
-    },
-    // run this watcher the first time the code runs. otherwise, the function would
-    // not be called until the user changed their selection and therefore the url
-    { immediate: true }
-  );
+    }
+  }
+
+  // Watch for changes in selectedSecurityType and fetch courses
+  watch(selectedSecurityType, () => {
+      fetchCoursesByType();
+  }, { immediate: true });
+
+
   // take 25 of the data points from the API, if there is a value in our data ref
   // otherwise, return an empty array
   const records = computed(() => {
-    if (data.value) {
-      return data.value.data.slice(0, 25);
-    } else {
-      return [];
-    }
+  if (data.value && Array.isArray(data.value)) { // Check if data.value is an array
+    return data.value.slice(0, 25);
+  } else {
+    return [];
+  }
   });
   // convert each item in records (noting that for this code, we don't need to worry about unfetched data!)
   // into an object that has a formatted date and the value we want to display
   const displaycourse = computed(() =>
     records.value.map((course) => {
       return {
-      courseName: course.ID,
+      class_name: course.class_name,
       instructor: course.instructor,
-      room: course.room,
-      meet_time: course.meet_time,
-      prereq: course.prereq,
-      searchtag: course.searchtag,
-      maxenroll: course.maxenroll,
+      room: course.room[0],
+      meeting_time: course.meeting_time,
+      pre_requisites: course.pre_requisites,
+      search_tags: course.search_tags.join(', '),
+      max_enrollment: course.max_enrollment,
       };
     })
   );
