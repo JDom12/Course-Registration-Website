@@ -14,8 +14,7 @@
       <input type="text" id="courseid" name="Course" v-model="courseName" />
       <button type="submit">Save</button>
     </form>
-    
-
+    <p>{{ apiResponse }}</p>
     <ul>
       <!--
         v-for requires a unique key for every element so that it can efficiently keep track
@@ -28,6 +27,8 @@
       <li v-if="ids.length > 0">
         <p>Registered Courses for the Fall Semester:</p>
       </li>
+      <li v-if="ids.length > 0">
+      </li>
       <li v-for="(courseID, index) in ids" :key="courseID + index">
         {{ courseID }}
         <button @click="unregisterCourse(index)">Unregister from Course</button>
@@ -39,7 +40,7 @@
         the current status of the system (working), and doesn't make them wonder if something
         has gone wrong
        -->
-      <li v-if="ids.length === 0">
+      <li v-if="ids.length == 0">
         <p>No courses yet, go ahead and register for one!</p>
       </li>
     </ul>
@@ -53,21 +54,32 @@ import { ref } from "vue";
 const studentName = ref("");
 const courseName = ref("");
 const ids = ref([]);
+const apiResponse = ref("");
 
 // function to run when the create todo form is submitted
 function studentLogin() {
-  const studentToAdd = studentName.value.trim();
-  const path = '../../Lambda_Functions/Registration/course-view-student.py'; 
-  const MyInit = {
-    headers: {},
-    queryStringParameters: {
-      'netID' : studentToAdd,
-    }
-  };
-  API.get(apiName, path, MyInit) 
-    .then((response) => {
-      ids.value.push(response);
+  const netID = studentName.value.trim();
+  const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
+  const path = '/RegisteredClasses'
+
+  if (netID !== ""){
+    const url = `${endpointURL}${path}?netID=${encodeURIComponent(netID)}`;
+
+    fetch(url,{
+      method: 'GET',
+      headers: {
+        'Content-Type' : 'application/json',
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      ids.value = JSON.parse(data.body); 
+    })
+    .catch(error => {
+      console.error('There was an error fetching the classes:', error);
     });
+  };
+
 }
 
 function registerCourse() {
@@ -96,6 +108,7 @@ function registerCourse() {
     })
     .then(response => response.json())
     .then(data => {
+      apiResponse.value = data.body;
       ids.value.push(class_name);
       courseName.value = "";
     })
