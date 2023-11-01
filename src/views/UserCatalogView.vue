@@ -51,7 +51,7 @@
   function fetchUsersByType() {
     const userType = selectedUserType.value.trim();
     const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
-    const path = '/all_classes'; //Change the API path to the correct one
+    const path = '/user'; //Change the API path to the correct one
 
     if (userType !== "") {
         const url = `${endpointURL}${path}?search_tags=${encodeURIComponent(userType)}`;

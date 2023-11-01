@@ -39,7 +39,7 @@
   
     const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
   
-    const path = '/change_api_path'; //Change api path here
+    const path = '/user'; //Change api path here
   
     if (netID !== "") {
       
@@ -77,11 +77,11 @@
     const userToRemove = userIDd.value.trim();
   
     const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1';
-    const path = '/change_api_path'; //Change API path here
+    const path = '/user'; //Change API path here
     const url = `${endpointURL}${path}`;
   
     fetch(url, {
-      method: 'POST', 
+      method: 'DELETE', 
       headers: {
         'Content-Type': 'application/json',
       },
