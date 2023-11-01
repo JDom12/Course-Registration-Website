@@ -24,9 +24,6 @@
             <RouterLink to="/course">View Courses</RouterLink>
           </li>
           <li>
-            <RouterLink to="/usercatalog">View All Users</RouterLink>
-          </li>
-          <li>
             <RouterLink to="/usermanage">Manage Users</RouterLink>
           </li>
         </ul>

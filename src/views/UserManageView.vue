@@ -30,6 +30,7 @@
   const last_name = ref("");
   const email = ref("");
   const role = ref("");
+  const prior_courses = ref([]);
   const userIDd = ref("");
   const apiResponse = ref("");
   
@@ -53,16 +54,20 @@
         },
         body: JSON.stringify({
           netID: netID,
-          'first_name': first_name,
-          'last_name': last_name,
-          'email': email,
-          'role': role
+          'first_name': first_name.value,
+          'last_name': last_name.value,
+          'email': email.value,
+          'role': role.value,
         })
       })
       .then(response => response.json())
       .then(data => {
         apiResponse.value = data.body;
-        courseName.value = "";
+        userIDc.value = "";
+        first_name.value = "";
+        last_name.value = "";
+        email.value = "";
+        role.value = "";
       })
       .catch(error => {
         // Handle errors
@@ -96,6 +101,7 @@
       } else {
         console.error(data.body); // Error unregistering
       }
+      userIDd.value = "";
     })
     .catch(error => {
       console.error("Error unregistering course:", error);
