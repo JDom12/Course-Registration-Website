@@ -14,7 +14,6 @@
       <input type="text" id="courseid" name="Course" v-model="courseName" />
       <button type="submit">Save</button>
     </form>
-    <p>{{ apiResponse }}</p>
     <ul>
       <!--
         v-for requires a unique key for every element so that it can efficiently keep track
