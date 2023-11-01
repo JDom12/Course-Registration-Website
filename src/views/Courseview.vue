@@ -1,7 +1,6 @@
 <template>
     <main class="fetch">
       <h2>Course Search</h2>
-      <pre>{{ rawApiData }}</pre> <!-- For Debugging Purposes -->
       <p>
         For the university 
         <a
