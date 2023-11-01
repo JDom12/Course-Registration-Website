@@ -14,7 +14,6 @@
       <input type="text" id="courseid" name="Course" v-model="courseName" />
       <button type="submit">Save</button>
     </form>
-    <p>{{ apiResponse }}</p>
     <ul>
       <!--
         v-for requires a unique key for every element so that it can efficiently keep track
@@ -100,7 +99,6 @@ function registerCourse() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        
       },
       body: JSON.stringify({
         netID: netID,
@@ -123,18 +121,36 @@ function registerCourse() {
 // when a todo's delete button is clicked, the index of that todo is passed to this function
 // Array.splice takes an index in the array and a number of items to delete after that
 function unregisterCourse(index) {
-  newVals = ids.value.splice(index, 1);
-  const courseToAdd = newVals.value.trim();
-  const studentToAdd = studentName.value.trim();
-  const path = "../..Lambda_Function/Registration/course-drop.py"
-  const MyInit = {
-    headers: {},
-    queryStringParameters: {
-      'netID' : studentToAdd,
-      'class_ID' : courseToAdd
+  const courseToRemove = ids.value.splice(index, 1)[0]; 
+  const studentToRemove = studentName.value.trim();
+
+  const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1';
+  const path = '/DropCourse'; 
+  const url = `${endpointURL}${path}`;
+
+  fetch(url, {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      netID: studentToRemove,
+      class_name: courseToRemove
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.statusCode === 200) {
+      console.log(data.body); // Successfully unregistered
+    } else {
+      console.error(data.body); // Error unregistering
+      ids.value.splice(index, 0, courseToRemove); // Re-add the course if there was an error
     }
-  }
-  API.put(apiName, path, MyInit)
+  })
+  .catch(error => {
+    console.error("Error unregistering course:", error);
+    ids.value.splice(index, 0, courseToRemove); // Re-add the course if there was an error
+  });
 }
 </script>
 

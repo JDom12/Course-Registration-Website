@@ -20,6 +20,9 @@
           <li>
             <RouterLink to="/register">Register for Course</RouterLink>
           </li>
+          <li>
+            <RouterLink to="/course">View Courses</RouterLink>
+          </li>
         </ul>
       </nav>
     </div>
@@ -29,7 +32,6 @@
 <script setup>
 // import the <RouterLink> component so that we can use it in the template above
 import { RouterLink } from "vue-router";
-
 // give this component a title property so that the parent component (app.vue) can set whatever title it wants
 defineProps({
   title: {
@@ -46,7 +48,6 @@ defineProps({
   border-bottom: 1px solid #e0e0e0;
   padding: 1rem;
 }
-
 /* make the title within the header a larger and bolder font */
 .app-header h1 {
   font-size: 2rem;
