@@ -30,7 +30,6 @@
   const last_name = ref("");
   const email = ref("");
   const role = ref("");
-  const prior_courses = ref([]);
   const userIDd = ref("");
   const apiResponse = ref("");
   

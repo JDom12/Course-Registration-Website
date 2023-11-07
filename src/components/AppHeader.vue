@@ -26,6 +26,9 @@
           <li>
             <RouterLink to="/usermanage">Manage Users</RouterLink>
           </li>
+          <li>
+            <RouterLink to="/usersearch">Search for User</RouterLink>
+          </li>
         </ul>
       </nav>
     </div>
