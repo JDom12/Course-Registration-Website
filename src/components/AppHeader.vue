@@ -29,6 +29,9 @@
           <li>
             <RouterLink to="/usersearch">Search for User</RouterLink>
           </li>
+          <li>
+            <RouterLink to="/edit">Edit Courses</RouterLink>
+          </li>
         </ul>
       </nav>
     </div>
