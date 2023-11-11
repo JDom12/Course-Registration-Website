@@ -13,11 +13,13 @@
         <input type="text" id="role" name="Role" v-model="role" placeholder="Role" />
         <button type="submit">Create</button>
       </form>
+      <p v-if="message_create"> {{ message_create }} </p>
       <form @submit.prevent="deleteUser" class="deleteUser">
         <label for="deletion">Enter User's netid to delete them</label>
         <input type="text" id="netid" name="User" v-model="userIDd" placeholder="NetID" />
         <button type="submit">Delete</button>
       </form>
+      <p v-if="message_delete"> {{ message_delete }} </p>
     </main>
   </template>
   
@@ -32,6 +34,8 @@
   const role = ref("");
   const userIDd = ref("");
   const apiResponse = ref("");
+  const message_create = ref("");
+  const message_delete = ref("");
   
   function createUser() {
     // sanitize the input by removing the whitespace from the beginning and end of the input values
@@ -39,7 +43,7 @@
   
     const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
   
-    const path = '/user'; //Change api path here
+    const path = '/user'; 
   
     if (netID !== "") {
       
@@ -52,14 +56,17 @@
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          netID: netID,
+          'netID': netID,
           'first_name': first_name.value,
           'last_name': last_name.value,
           'email': email.value,
           'role': role.value,
         })
       })
-      .then(response => response.json())
+      .then(response => {
+        console.log('Full API response:', response);
+        return response.json();
+      })
       .then(data => {
         apiResponse.value = data.body;
         userIDc.value = "";
@@ -67,16 +74,16 @@
         last_name.value = "";
         email.value = "";
         role.value = "";
+        message_create.value = "User successfully created";
       })
       .catch(error => {
         // Handle errors
-        console.error("Error registering course:", error);
+        console.error('Error creating user:', error);
       });
     }
   }
   
-  // when a todo's delete button is clicked, the index of that todo is passed to this function
-  // Array.splice takes an index in the array and a number of items to delete after that
+
   function deleteUser(index) { 
     const userToRemove = userIDd.value.trim();
   
@@ -95,15 +102,16 @@
     })
     .then(response => response.json())
     .then(data => {
-      if (data.statusCode === 200) {
-        console.log(data.body); // Successfully unregistered
+      if (data.statusCode == 200) {
+        console.log(data.body); 
       } else {
-        console.error(data.body); // Error unregistering
+        console.error(data.body); 
       }
       userIDd.value = "";
+      message_delete.value = "User successfully deleted";
     })
     .catch(error => {
-      console.error("Error unregistering course:", error);
+      console.error("Error deleting user:", error);
     });
   }
   </script>
