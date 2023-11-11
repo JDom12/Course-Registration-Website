@@ -23,6 +23,9 @@
           <li>
             <RouterLink to="/course">View Courses</RouterLink>
           </li>
+          <li>
+            <RouterLink to="/edit">Edit Courses</RouterLink>
+          </li>
         </ul>
       </nav>
     </div>

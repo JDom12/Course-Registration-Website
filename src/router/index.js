@@ -7,6 +7,7 @@ import FormView from "../views/FormView.vue";
 import FetchView from "../views/FetchView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import CourseView from "../views/CourseView.vue";
+import CourseEdit from "../views/CourseEdit.vue";
 
 const router = createRouter({
   // the history mode determines how vue router interacts with the url.
@@ -46,6 +47,11 @@ const router = createRouter({
       path: "/course",
       name: "course",
       component: CourseView,
+    },
+    {
+      path: "/edit",
+      name: "edit",
+      component: CourseEdit,
     },
   ],
 });
