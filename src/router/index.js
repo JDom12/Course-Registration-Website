@@ -8,6 +8,9 @@ import FetchView from "../views/FetchView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import CourseView from "../views/CourseView.vue";
 import CourseEdit from "../views/CourseEdit.vue";
+import UserManageView from "../views/UserManageView.vue";
+import UserSearchView from "../views/UserSearchView.vue";
+
 
 const router = createRouter({
   // the history mode determines how vue router interacts with the url.
@@ -53,6 +56,16 @@ const router = createRouter({
       name: "edit",
       component: CourseEdit,
     },
+    {
+      path: "/usermanage",
+      name: "usermanage",
+      component: UserManageView,
+    },
+    {
+      path: "/usersearch",
+      name: "usersearch",
+      component: UserSearchView,
+    }
   ],
 });
 
