@@ -48,8 +48,6 @@
 
 <script setup>
 import { ref } from "vue";
-//const apiName = 'InsertAPINameHere'; //Change to finalized API database name
-
 const studentName = ref("");
 const courseName = ref("");
 const ids = ref([]);
