@@ -33,6 +33,7 @@
         </thead>
         <tbody>
           <tr v-for="course in displaycourse" :key="course.class_name">
+            <td><a href="https://uconn.edu/academics/schools-and-colleges/" target="_blank">{{ course.class_name }}</a></td>
             <td>{{ course.class_name }}</td>
             <td>{{ course.instructor }}</td>
             <td>{{ course.room }}</td>
