@@ -50,10 +50,9 @@ import AppHeader from "./components/AppHeader.vue";
 
 .app-sidebar {
   /* Sidebar styles */
-  background-color: #f0f0f0;
+  background-color: #f5f5f5;
   padding: 20px;
   border-right: 1px solid #ccc;
-  /* More styles as needed */
 }
 
 .app-content {
