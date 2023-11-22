@@ -1,0 +1,37 @@
+/* Layout for the whole page */
+.page-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr; /* Sidebar width and remaining space */
+    grid-template-rows: auto 1fr; /* Header height and remaining space */
+    height: 100vh;
+  }
+  
+  /* Header style */
+  .header {
+    grid-column: 1 / -1; /* Header spans across all columns */
+    background-color: #f8f8f8;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  /* Sidebar style */
+  .sidebar {
+    background-color: #efefef;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+    overflow-y: auto; /* Makes sidebar scrollable */
+  }
+  
+  /* Style for links in the sidebar */
+  .sidebar a {
+    display: block;
+    color: #333;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-bottom: 5px;
+  }
+  
+  .sidebar a:hover {
+    background-color: #ddd;
+  }

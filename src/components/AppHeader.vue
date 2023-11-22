@@ -1,65 +1,31 @@
 <template>
   <header class="app-header">
-    <div>
-      <h1>{{ title }}</h1>
-      <nav>
-        <ul>
-          <li>
-            <RouterLink to="/">Home</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/fetch">Fetch Example</RouterLink>
-          </li>
-          <li>
-            <!--
-              This RouterLink does not point to a specific path, but rather the name of a route.
-              Check out router/index.js for how this is defined
-            -->
-            <RouterLink :to="{ name: 'form' }">Form Example</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/register">Register for Course</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/course">View Courses</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/edit">Edit Courses</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/usermanage">Manage Users</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/usersearch">Search for User</RouterLink>
-          </li>
-        </ul>
-      </nav>
-    </div>
+    <img src="/husky_qa.jpeg" alt="Logo" class="logo">
+    <h1>{{ title }}</h1>
   </header>
 </template>
 
 <script setup>
-// import the <RouterLink> component so that we can use it in the template above
-import { RouterLink } from "vue-router";
-// give this component a title property so that the parent component (app.vue) can set whatever title it wants
+import { defineProps } from 'vue';
+
 defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
+  title: String 
 });
 </script>
 
 <style>
-/* give the header itself a background color, a border, and add some padding to the content */
-.app-header {
-  background-color: #fcfcfc;
-  border-bottom: 1px solid #e0e0e0;
-  padding: 1rem;
-}
-/* make the title within the header a larger and bolder font */
+
 .app-header h1 {
-  font-size: 2rem;
-  font-weight: bold;
+  color: #ffffff; /* Change to your preferred color */
+  text-align: center; /* Adjust text alignment as needed */
+  font-family: 'Arial', sans-serif; /* Change to your preferred font */
+  font-size: 24px; /* Adjust font size as needed */
+  margin-left: 500px; /* Adjust or remove margin */
+  padding: 0; /* Adjust or add padding as needed */
+}
+.app-header {
+  display: flex; /* Enables Flexbox layout */
+  align-items: center; /* Vertically align items in the middle */
+  /* Add additional styling as needed */
 }
 </style>
