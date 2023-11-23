@@ -19,6 +19,36 @@
           </option>
         </select>
       </label>
+
+
+      <label for="courseSizeSelect">
+        Remaining Seats:
+        <select name="type" id="courseSizeSelect" v-model="selectedclass_size">
+          <option
+            v-for="class_size in class_size"
+            :key="class_size"
+            :value="class_size"
+          >
+            {{ class_size }}
+          </option>
+        </select>
+      </label>
+
+
+      <label for="courseProfSelect">
+        Professors:
+        <select name="type" id="courseProfSelect" v-model="selected_prof">
+          <option
+            v-for="proftype in proftype"
+            :key="proftype"
+            :value="proftype"
+          >
+            {{ proftype }}
+          </option>
+        </select>
+      </label>
+
+
       <table>
         <thead>
           <tr>
@@ -33,8 +63,8 @@
         </thead>
         <tbody>
           <tr v-for="course in displaycourse" :key="course.class_name">
-            <td><a href="https://uconn.edu/academics/schools-and-colleges/" target="_blank">{{ course.class_name }}</a></td>
-            <td>{{ course.class_name }}</td>
+            <td><a href="http://2102-classregistration.s3-website-us-east-1.amazonaws.com/register" target="_blank">{{ course.class_name }}</a></td>
+            <!-- <td>{{ course.class_name }}</td> -->
             <td>{{ course.instructor }}</td>
             <td>{{ course.room }}</td>
             <td>{{ course.meeting_time }}</td>
@@ -47,19 +77,32 @@
     </main>
   </template>
   
+
+
+
   <script setup>
   import { ref, computed, watch } from "vue";
   import { monthNames } from "../util/constants";
   // the three financial security types in our api's dataset
-  // const securityTypes = ["CMBs", "Bills", "Bonds", "FRNs", "Notes", "TIPS"];
+  const class_size = ["", 10, 15, 20, 25, 30, 35];
+
   const securityTypes = ["","ENG", "PHAR", "CSE", "PHYS", "LANG", "FREN"];
+
+  const proftype = ["","George Clooney", "Tom Hanks", "Flint Drugswell", "Sandra Bullock", "Neil Armstrong", "Napoleon Bonaparte"];
+
   // placeholder securityTypes
   // store the selected value in the dropdown
   const selectedSecurityType = ref(securityTypes[0]);
+  const selectedclass_size = ref(class_size[0]);
+  const selected_prof = ref(proftype[0]);
   // store the endpoint for our api request
 
   const rawApiData = ref(null);
   const data = ref();
+  
+
+
+
 
 
   function fetchCoursesByType() {
@@ -87,10 +130,73 @@
     }
   }
 
+  function fetchCoursesBysize() {
+    const class_size = selectedclass_size.value;
+    // const class_size = selectedclass_size.value.trim();
+    // possible string and int conflict here ^ 
+    const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
+    const path = '/all_classes';
+
+    if (class_size !== "") {
+        const url = `${endpointURL}${path}?available_seats=${encodeURIComponent(class_size)}`;
+        console.log("Constructed URL:", url);
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(apiResponse => {
+            rawApiData.value = JSON.stringify(apiResponse, null, 2);  //For debugging purposes
+            data.value = JSON.parse(apiResponse.body);  
+        })
+        .catch(error => {
+            console.error('There was an error fetching the courses:', error);
+        });
+    }
+  }
+
+  function fetchCoursesByProf() {
+    const proftype = selected_prof.value.trim();
+    const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
+    const path = '/all_classes';
+
+    if (proftype !== "") {
+        const url = `${endpointURL}${path}?instructor=${encodeURIComponent(proftype)}`;
+        console.log("Constructed URL:", url);
+        console.log("proftype:",proftype);
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(apiResponse => {
+            rawApiData.value = JSON.stringify(apiResponse, null, 2);  //For debugging purposes
+            data.value = JSON.parse(apiResponse.body);  
+        })
+        .catch(error => {
+            console.error('There was an error fetching the courses:', error);
+        });
+    }
+  }
+
   // Watch for changes in selectedSecurityType and fetch courses
   watch(selectedSecurityType, () => {
       fetchCoursesByType();
   }, { immediate: true });
+
+  watch(selectedclass_size, () => {
+      fetchCoursesBysize();
+  }, { immediate: true });
+
+  watch(selected_prof, () => {
+      fetchCoursesByProf();
+  }, { immediate: true });
+
+
 
 
   // take 25 of the data points from the API, if there is a value in our data ref
