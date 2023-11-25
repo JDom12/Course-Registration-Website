@@ -84,7 +84,7 @@
   import { ref, computed, watch } from "vue";
   import { monthNames } from "../util/constants";
   // the three financial security types in our api's dataset
-  const class_size = ["", 10, 15, 20, 25, 30, 35];
+  const class_size = ["", 10, 20, 30, 40, 50, 60, 70, 80];
 
   const securityTypes = ["","ENG", "PHAR", "CSE", "PHYS", "LANG", "FREN"];
 
@@ -107,11 +107,13 @@
 
   function fetchCoursesByType() {
     const courseType = selectedSecurityType.value.trim();
+    const proftype = selected_prof.value.trim();
+    const class_size = selectedclass_size.value;
     const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
     const path = '/all_classes';
 
     if (courseType !== "") {
-        const url = `${endpointURL}${path}?search_tags=${encodeURIComponent(courseType)}`;
+        const url = `${endpointURL}${path}?search_tags=${encodeURIComponent(courseType)}&instructor=${encodeURIComponent(proftype)}&available_seats=${encodeURIComponent(class_size)}`;
         console.log("Constructed URL:", url);
         fetch(url, {
             method: 'GET',
@@ -132,13 +134,15 @@
 
   function fetchCoursesBysize() {
     const class_size = selectedclass_size.value;
+    const proftype = selected_prof.value.trim();
+    const courseType = selectedSecurityType.value.trim();
     // const class_size = selectedclass_size.value.trim();
     // possible string and int conflict here ^ 
     const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
     const path = '/all_classes';
 
     if (class_size !== "") {
-        const url = `${endpointURL}${path}?available_seats=${encodeURIComponent(class_size)}`;
+        const url = `${endpointURL}${path}?available_seats=${encodeURIComponent(class_size)}&instructor=${encodeURIComponent(proftype)}&search_tags=${encodeURIComponent(courseType)}`;
         console.log("Constructed URL:", url);
         fetch(url, {
             method: 'GET',
@@ -159,11 +163,13 @@
 
   function fetchCoursesByProf() {
     const proftype = selected_prof.value.trim();
+    const class_size = selectedclass_size.value;
+    const courseType = selectedSecurityType.value.trim();
     const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
     const path = '/all_classes';
 
     if (proftype !== "") {
-        const url = `${endpointURL}${path}?instructor=${encodeURIComponent(proftype)}`;
+        const url = `${endpointURL}${path}?instructor=${encodeURIComponent(proftype)}&available_seats=${encodeURIComponent(class_size)}&search_tags=${encodeURIComponent(courseType)}`;
         console.log("Constructed URL:", url);
         console.log("proftype:",proftype);
         fetch(url, {
