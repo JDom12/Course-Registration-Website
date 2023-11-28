@@ -3,8 +3,6 @@
 // we start by importing the createRouter and createWebHistory functions, as well as the components describing each of our views
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import FormView from "../views/FormView.vue";
-import FetchView from "../views/FetchView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import CourseView from "../views/CourseView.vue";
 import CourseEdit from "../views/CourseEdit.vue";
@@ -30,16 +28,6 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeView,
-    },
-    {
-      path: "/form",
-      name: "form",
-      component: FormView,
-    },
-    {
-      path: "/fetch",
-      name: "fetch",
-      component: FetchView,
     },
     {
       path: "/register",

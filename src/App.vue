@@ -8,12 +8,6 @@
             <RouterLink to="/">Home</RouterLink>
           </li>
           <li>
-            <RouterLink to="/fetch">Fetch Example</RouterLink>
-          </li>
-          <li>
-            <RouterLink :to="{ name: 'form' }">Form Example</RouterLink>
-          </li>
-          <li>
             <RouterLink to="/register">Register for Course</RouterLink>
           </li>
           <li>
