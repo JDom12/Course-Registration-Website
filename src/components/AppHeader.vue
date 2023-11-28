@@ -1,65 +1,30 @@
 <template>
   <header class="app-header">
-    <div>
-      <h1>{{ title }}</h1>
-      <nav>
-        <ul>
-          <li>
-            <RouterLink to="/">Home</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/fetch">Fetch Example</RouterLink>
-          </li>
-          <li>
-            <!--
-              This RouterLink does not point to a specific path, but rather the name of a route.
-              Check out router/index.js for how this is defined
-            -->
-            <RouterLink :to="{ name: 'form' }">Form Example</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/register">Register for Course</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/course">View Courses</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/edit">Edit Courses</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/usermanage">Manage Users</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/usersearch">Search for User</RouterLink>
-          </li>
-        </ul>
-      </nav>
-    </div>
+    <img src="/husky_qa.jpeg" alt="Logo" class="logo">
+    <h1>{{ title }}</h1>
   </header>
 </template>
 
 <script setup>
-// import the <RouterLink> component so that we can use it in the template above
-import { RouterLink } from "vue-router";
-// give this component a title property so that the parent component (app.vue) can set whatever title it wants
+import { defineProps } from 'vue';
+
 defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
+  title: String 
 });
 </script>
 
 <style>
-/* give the header itself a background color, a border, and add some padding to the content */
-.app-header {
-  background-color: #fcfcfc;
-  border-bottom: 1px solid #e0e0e0;
-  padding: 1rem;
-}
-/* make the title within the header a larger and bolder font */
+
 .app-header h1 {
-  font-size: 2rem;
-  font-weight: bold;
+  color: #ffffff; 
+  text-align: center; 
+  font-family: 'Arial', sans-serif; 
+  font-size: 24px; 
+  margin-left: 500px; 
+  padding: 0; 
+}
+.app-header {
+  display: flex; /* Enable items to be on same line */
+  align-items: center; /* Vertically align items in the middle */
 }
 </style>
