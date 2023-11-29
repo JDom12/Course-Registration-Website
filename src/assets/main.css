@@ -9,21 +9,35 @@ browser are identical
 
 /* give links a blue color, and underline them */
 a {
-  color: #0d74ce;
+  color: #0025b9;
   text-decoration: underline;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif, cursive;
 }
 
 /* when the links are hovered, change them to a lighter blue */
 a:hover {
-  color: #0588f0;
+  color: #1093ff;
+
 }
 
 /* give headings and form labels a default color that is dark and has strong contrast against the background */
-:is(h1, h2, h3, h4, h5, h6, label) {
-  color: #202020;
+:is(h1, label) {
+  color: rgb(13, 20, 99);
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif, cursive;
+}
+
+:is(h2, h3, h4, h5, h6, label) {
+  color: #90aeff;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif, cursive;
 }
 
 /* give text a default color that is ligher than headings. it still has enough contrast to be legible, but looks visually less important */
 :is(p, li) {
-  color: #646464;
+  color: #dedede;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif, cursive;
 }
+
+body { background: rgb(13, 20, 99) }
+h2 { color: rgb(255, 255, 255) }
+
+

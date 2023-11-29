@@ -2,13 +2,14 @@
   <main class="home">
     <h2>The Home Page</h2>
     <p>
-      This application includes this home page, a page that fetches data, and a
-      page that handles state in a form.
+      Welcome to the brand new UConn Course Hub, where you'll be able to access all things "classes" here
+      at the University. Students, Admins, and Professors, please use the navigation bar to find your desired tasks.
     </p>
     <p>
-      These pages, along with the structure of the project, are designed to help
-      you get started solving similar technical challenges, based on the
-      features you are looking to add to your application.
+      CSE2102 Group Project Section 004L - Group 3
+    </p>
+    <p>
+      Julian Dominguez, Matthew Fernand, Jeffrey Chen, Chandni Krishnaprasad
     </p>
   </main>
 </template>

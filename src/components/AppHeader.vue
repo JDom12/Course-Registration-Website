@@ -23,6 +23,9 @@
           <li>
             <RouterLink to="/course">View Courses</RouterLink>
           </li>
+          <li>
+            <RouterLink to="/course_creation">Create Courses</RouterLink>
+          </li>
         </ul>
       </nav>
     </div>
@@ -44,8 +47,8 @@ defineProps({
 <style>
 /* give the header itself a background color, a border, and add some padding to the content */
 .app-header {
-  background-color: #fcfcfc;
-  border-bottom: 1px solid #e0e0e0;
+  background-color: #dcdcdc;
+  border-bottom: 1px solid #dcdcdc;
   padding: 1rem;
 }
 /* make the title within the header a larger and bolder font */
