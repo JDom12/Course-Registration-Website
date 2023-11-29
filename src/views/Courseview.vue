@@ -7,6 +7,15 @@
           href="https://catalog.uconn.edu/directory-of-courses/"
           >course catalog</a
         >.     </p>
+
+        <form @submit.prevent="FetchCourse" class="FetchCourse">
+          <label for="courseName">Search course name to find courses:</label>
+          <input type="text" id="courseName" v-model="courseName"/>
+          <button type="submit">Search</button>
+      </form>
+    <p></p>
+
+
       <label for="courseTypeSelect">
         Course Type:
         <select name="type" id="courseTypeSelect" v-model="selectedSecurityType">
@@ -19,6 +28,8 @@
           </option>
         </select>
       </label>
+      
+      
 
 
       <label for="courseSizeSelect">
@@ -63,7 +74,7 @@
         </thead>
         <tbody>
           <tr v-for="course in displaycourse" :key="course.class_name">
-            <td><a href="http://2102-classregistration.s3-website-us-east-1.amazonaws.com/register" target="_blank">{{ course.class_name }}</a></td>
+            <td><a href="http://2102-classregistration.s3-website-us-east-1.amazonaws.com/" target="_blank">{{ course.class_name }}</a></td>
             <!-- <td>{{ course.class_name }}</td> -->
             <td>{{ course.instructor }}</td>
             <td>{{ course.room }}</td>
@@ -99,8 +110,89 @@
 
   const rawApiData = ref(null);
   const data = ref();
+  const courseName = ref("");
+  const message_fetch = ref("");
   
+  const newCourse = ref({
+  class_name: '',
+  class_id: '',
+  instructor: '',
+  room: '',
+  meeting_time: '',
+  pre_requisites: '',
+  search_tags: '',
+  max_enrollment: null
+  });
 
+  function FetchCourse() {
+  const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
+  const path = '/classes/details';
+
+  if (courseName.value !== "") { 
+      const url = `${endpointURL}${path}?class_name=${encodeURIComponent(courseName.value)}`;
+      console.log("Constructed URL:", url);
+      fetch(url, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+          }
+      })
+      .then(response => response.json())
+      .then(jsonResponse => {
+          rawApiData.value = JSON.stringify(jsonResponse, null, 2); // For debugging purposes
+          if (jsonResponse && jsonResponse.statusCode === 200) {
+              try {
+                  const bodyObj = JSON.parse(jsonResponse.body);
+                  data.value = [bodyObj];
+                  newCourse.value.class_name = bodyObj.class_name;
+                  message_fetch.value = ""
+              } catch (error) {
+                  console.error('Error parsing JSON response:', error);
+                  data.value = []; 
+                  message_fetch.value = `error fetching course: ${ error.message}`;
+              }
+          } else {
+              console.error('Unexpected response format or status code:', jsonResponse);
+              data.value = [];
+              message_fetch.value = `error fetching course: ${JSON.parse(jsonResponse.body)}`; 
+          }
+      })
+      .catch(error => {
+          console.error('There was an error fetching the courses:', error);
+      });
+  }
+}
+
+function submitCourse() {
+console.log('Submitting course:', newCourse.value);
+
+const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
+const path = '/classes'
+const url = `${endpointURL}${path}`;
+const courseDataToUpdate = { ...newCourse.value };
+
+for (const key in courseDataToUpdate) {
+  if (courseDataToUpdate[key] == '') {
+    courseDataToUpdate[key] = data.value[0][key];
+  }
+}
+fetch(url, {
+  method: 'PUT', 
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(courseDataToUpdate),
+})
+.then(response => response.json())
+.then(data => {
+  console.log('Success:', data);
+  message_fetch.value = "course sucessfuly updated";
+})
+.catch((error) => {
+  console.error('Error:', error);
+  message_fetch.value = `error updating course: ${error.message}`;
+});
+}
 
 
 
