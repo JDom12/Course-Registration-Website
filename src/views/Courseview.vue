@@ -2,15 +2,22 @@
     <main class="fetch">
       <h2>Course Search</h2>
       <p>
-        For the university 
+        For the University 
         <a
           href="https://catalog.uconn.edu/directory-of-courses/"
-          >course catalog</a
+          >Course Catalog</a
         >.     </p>
 
         <form @submit.prevent="FetchCourse" class="FetchCourse">
           <label for="courseName">Search course name to find courses:</label>
           <input type="text" id="courseName" v-model="courseName"/>
+          <button type="submit">Search</button>
+      </form>
+    <p></p>
+
+    <form @submit.prevent="FetchProf" class="FetchProf">
+          <label for="profName">Search Professor name:</label>
+          <input type="text" id="profName" v-model="profName"/>
           <button type="submit">Search</button>
       </form>
     <p></p>
@@ -64,7 +71,7 @@
         <thead>
           <tr>
             <th>Class Name</th>
-            <th>Intructor</th>
+            <th>Instructor</th>
             <th>Room</th>
             <th>Meeting Time</th> 
             <th>Prerequistes</th>
@@ -112,8 +119,20 @@
   const data = ref();
   const courseName = ref("");
   const message_fetch = ref("");
+  const profName = ref("");
   
   const newCourse = ref({
+  class_name: '',
+  class_id: '',
+  instructor: '',
+  room: '',
+  meeting_time: '',
+  pre_requisites: '',
+  search_tags: '',
+  max_enrollment: null
+  });
+
+  const newprof = ref({
   class_name: '',
   class_id: '',
   instructor: '',
@@ -193,6 +212,88 @@ fetch(url, {
   message_fetch.value = `error updating course: ${error.message}`;
 });
 }
+
+
+
+
+
+function FetchProf() {
+  const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1';
+  const path = '/all_classes';
+
+  if (profName.value !== "") {
+    const url = `${endpointURL}${path}?instructor=${encodeURIComponent(profName.value)}`;
+    console.log("Constructed URL:", url);
+
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(jsonResponse => {
+        rawApiData.value = JSON.stringify(jsonResponse, null, 2); // For debugging purposes
+        if (jsonResponse && jsonResponse.statusCode === 200) {
+          try {
+            const bodyObj = JSON.parse(jsonResponse.body);
+            data.value = Array.isArray(bodyObj) ? bodyObj : [bodyObj]; // Ensure data is an array
+            newprof.value.instructor = profName.value; // Assuming you want to update the instructor name
+            message_fetch.value = "";
+          } catch (error) {
+            console.error('Error parsing JSON response:', error);
+            data.value = [];
+            message_fetch.value = `error fetching professor: ${error.message}`;
+          }
+        } else {
+          console.error('Unexpected response format or status code:', jsonResponse);
+          data.value = [];
+          message_fetch.value = `error fetching professor: ${JSON.parse(jsonResponse.body)}`;
+        }
+      })
+      .catch(error => {
+        console.error('There was an error fetching the professor:', error);
+      });
+  }
+}
+
+
+function submitProf() {
+console.log('Submitting professor:', newprof.value);
+
+const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
+const path = '/all_classes'
+const url = `${endpointURL}${path}`;
+const courseDataToUpdate = { ...newprof.value };
+
+for (const key in courseDataToUpdate) {
+  if (courseDataToUpdate[key] == '') {
+    courseDataToUpdate[key] = data.value[0][key];
+  }
+}
+
+fetch(url, {
+  method: 'PUT', 
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(courseDataToUpdate),
+})
+.then(response => response.json())
+.then(data => {
+  console.log('Success:', data);
+  message_fetch.value = "course sucessfuly updated";
+})
+.catch((error) => {
+  console.error('Error:', error);
+  message_fetch.value = `error updating course: ${error.message}`;
+});
+}
+
+
+
+
+
 
 
 
@@ -309,18 +410,18 @@ fetch(url, {
   // convert each item in records (noting that for this code, we don't need to worry about unfetched data!)
   // into an object that has a formatted date and the value we want to display
   const displaycourse = computed(() =>
-    records.value.map((course) => {
-      return {
-      class_name: course.class_name,
-      instructor: course.instructor,
-      room: course.room[0],
-      meeting_time: course.meeting_time,
-      pre_requisites: course.pre_requisites,
-      search_tags: course.search_tags.join(', '),
-      max_enrollment: course.max_enrollment,
-      };
-    })
-  );
+  records.value
+    ? records.value.map((course) => ({
+        class_name: course.class_name,
+        instructor: course.instructor,
+        room: course.room && course.room.length > 0 ? course.room[0] : '',
+        meeting_time: course.meeting_time,
+        pre_requisites: course.pre_requisites,
+        search_tags: course.search_tags ? course.search_tags.join(', ') : '',
+        max_enrollment: course.max_enrollment,
+      }))
+    : []
+);
   </script>
   
   
