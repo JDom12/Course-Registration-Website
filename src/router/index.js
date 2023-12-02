@@ -7,6 +7,9 @@ import FormView from "../views/FormView.vue";
 import FetchView from "../views/FetchView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import CourseView from "../views/CourseView.vue";
+import CourseEdit from "../views/CourseEdit.vue";
+import UserManageView from "../views/UserManageView.vue";
+import UserSearchView from "../views/UserSearchView.vue";
 import CreationView from "../views/CreationView.vue";
 
 const router = createRouter({
@@ -48,6 +51,21 @@ const router = createRouter({
       name: "course",
       component: CourseView,
     },
+    {
+      path: "/edit",
+      name: "edit",
+      component: CourseEdit,
+    },
+    {
+      path: "/usermanage",
+      name: "usermanage",
+      component: UserManageView,
+    },
+    {
+      path: "/usersearch",
+      name: "usersearch",
+      component: UserSearchView,
+    }
     {
       path: "/course_creation",
       name: "course_creation",

@@ -51,7 +51,7 @@
   import { monthNames } from "../util/constants";
   // the three financial security types in our api's dataset
   // const securityTypes = ["CMBs", "Bills", "Bonds", "FRNs", "Notes", "TIPS"];
-  const securityTypes = ["ENG", "PHAR", "CSE", "PHYS", "LANG", "FRE"];
+  const securityTypes = ["","ENG", "PHAR", "CSE", "PHYS", "LANG", "FREN"];
   // placeholder securityTypes
   // store the selected value in the dropdown
   const selectedSecurityType = ref(securityTypes[0]);

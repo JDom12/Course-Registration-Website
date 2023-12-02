@@ -24,6 +24,15 @@
             <RouterLink to="/course">View Courses</RouterLink>
           </li>
           <li>
+            <RouterLink to="/edit">Edit Courses</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/usermanage">Manage Users</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/usersearch">Search for User</RouterLink>
+          </li>
+          <li>
             <RouterLink to="/course_creation">Create Courses</RouterLink>
           </li>
         </ul>
