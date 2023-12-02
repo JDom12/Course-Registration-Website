@@ -17,7 +17,7 @@
             <RouterLink to="/course">View Courses</RouterLink>
           </li>
           <li>
-            <RouterLink to="/edit">Edit Courses</RouterLink>
+            <RouterLink to=/course_creation>Add a Course</RouterLink>
           </li>
           <li>
             <RouterLink to="/edit">Edit Courses</RouterLink>
@@ -58,8 +58,5 @@ import AppHeader from "./components/AppHeader.vue";
   background-color: #f5f5f5;
   padding: 20px;
   border-right: 1px solid #ccc;
-}
-.app-content {
-  /* Styles for the main content area */
 }
 </style>

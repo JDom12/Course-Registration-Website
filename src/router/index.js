@@ -10,7 +10,8 @@ import UserManageView from "../views/UserManageView.vue";
 import UserSearchView from "../views/UserSearchView.vue";
 import StudentSchedule from "../views/StudentSchedule.vue";
 import ProfessorSchedule from "../views/ProfessorSchedule.vue";
-import StudentUnenroll from "../views/StudentUnenroll.vue";import CreationView from "../views/CreationView.vue";
+import StudentUnenroll from "../views/StudentUnenroll.vue";
+import CreationView from "../views/CreationView.vue";
 
 const router = createRouter({
   // the history mode determines how vue router interacts with the url.
