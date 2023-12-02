@@ -36,14 +36,14 @@
               </tbody>
               <tfoot>
                   <tr>
-                      <td><!-- No input needed for class_name --></td> 
+                      <td>Immutable</td> 
                       <td><input type="text" v-model="newCourse.class_id" placeholder="class ID"></td>
                       <td><input type="text" v-model="newCourse.instructor" placeholder="Instructor"></td>
                       <td><input type="text" v-model="newCourse.room" placeholder="Room"></td>
                       <td><input type="text" v-model="newCourse.meeting_time" placeholder="Meeting Time"></td>
                       <td><input type="text" v-model="newCourse.pre_requisites" placeholder="Prerequisites"></td>
                       <td><input type="text" v-model="newCourse.search_tags" placeholder="Search Tags"></td>
-                      <td><input type="number" v-model.number="newCourse.max_enrollment" placeholder="Max Enrollment"></td>
+                      <td>Immutable</td>
                       <td><button @click="submitCourse">Submit</button></td>
                   </tr>
               </tfoot>
