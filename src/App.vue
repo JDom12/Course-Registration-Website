@@ -7,24 +7,24 @@
           <li>
             <RouterLink to="/">Home</RouterLink>
           </li>
-          <li v-if="isStudent || isAdmin">
+          <li v-if="user.userroles == 'isStudent' || user.userroles == 'isAdmin'">
             <RouterLink to="/register">Register for Course</RouterLink>
           </li>
-          <li v-if="isStudent || isProf || isAdmin">
+          <li v-if="isAuthenticated">
             <RouterLink to="/course">View Courses</RouterLink>
           </li>
-          <li v-if="isProf || isAdmin">
+          <li v-if="user.userroles == 'isProfessor' || user.userroles == 'isAdmin'">
             <RouterLink to="/edit">Edit Courses</RouterLink>
           </li>
-          <li v-if="isAdmin">
+          <li v-if="user.userroles == 'isAdmin'">
             <RouterLink to="/usermanage">Manage Users</RouterLink>
           </li>
-          <li v-if="isAdmin">
+          <li v-if="user.userroles == 'isAdmin'">
             <RouterLink to="/usersearch">Search for User</RouterLink>
           </li>
         </ul>
-        <button @click="login" v-if="!isAuthenticated">Log In</button>
-        <button @click="logout" v-if="isAuthenticated">Log Out</button>
+        <b-button @click="login" v-if="!isAuthenticated">Log In</b-button>
+        <b-button @click="logout" v-if="isAuthenticated">Log Out</b-button>
       </div>
       <div class="content">
         <RouterView />
@@ -34,18 +34,15 @@
 </template>
 
 <script>
-import { RouterView } from "vue-router";
 import AppHeader from "./components/AppHeader.vue";
+import { RouterView } from "vue-router";
 import { useAuth0 } from '@auth0/auth0-vue';
 export default{
   setup() {
     const auth0 = useAuth0();
     return {
       isAuthenticated: auth0.isAuthenticated,
-      isAdmin: auth0.isAdmin,
-      isStudent: auth0.isStudent,
-      isProf: auth0.isProf,
-      netID: auth0.netID,
+      user: auth0.user,
       login: () => {
         auth0.loginWithRedirect();
       },

@@ -2,7 +2,7 @@
     <main class="form">
       <h2>User Management</h2>
       <p>
-        For administrator use only. 
+        Create and Delete Users. 
       </p>
       <form @submit.prevent="createUser" class="createUser">
         <label for="creation">Enter new netID to create a new user</label>

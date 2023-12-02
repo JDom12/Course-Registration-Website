@@ -2,7 +2,7 @@
     <main class="fetch">
       <h2>User Management</h2>
       <p>
-        For use by administrators only. 
+        Search for and Edit Users. 
       </p>
       <form @submit.prevent="userSearch" class="userSearch">
         <label for="login">Enter User ID to view User Information: </label>

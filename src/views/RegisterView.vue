@@ -2,11 +2,10 @@
   <main class="form">
     <h2>Register for a Course</h2>
     <p>
-      Please enter your studentID and the courseID for the desired course. 
+      Please enter the courseID for the desired course. 
     </p>
     <form @submit.prevent="studentLogin" class="studentLogin">
-      <label for="login">Enter Student ID to load classes</label>
-      <input type="text" id="studentid" name="Student" v-model="studentName" />
+      <label for="login">Load Classes</label>
       <button type="submit">Load</button>
     </form>
     <form @submit.prevent="registerCourse" class="registerCourse">
@@ -48,14 +47,17 @@
 
 <script setup>
 import { ref } from "vue";
-const studentName = ref("");
+import { useAuth0 } from '@auth0/auth0-vue';
+const auth0 = useAuth0();
+const user = auth0.user;
+const studentName = user.name;
 const courseName = ref("");
 const ids = ref([]);
 const apiResponse = ref("");
 
 // function to run when the create todo form is submitted
 function studentLogin() {
-  const netID = studentName.value.trim();
+  const netID = studentName;
   const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
   const path = '/RegisteredClasses'
 
@@ -82,7 +84,7 @@ function studentLogin() {
 function registerCourse() {
   // sanitize the input by removing the whitespace from the beginning and end of the input values
   const class_name = courseName.value.trim();
-  const netID = studentName.value.trim();
+  const netID = studentName;
 
   const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
 
@@ -120,7 +122,7 @@ function registerCourse() {
 // Array.splice takes an index in the array and a number of items to delete after that
 function unregisterCourse(index) {
   const courseToRemove = ids.value.splice(index, 1)[0]; 
-  const studentToRemove = studentName.value.trim();
+  const studentToRemove = studentName;
 
   const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1';
   const path = '/DropCourse'; 
