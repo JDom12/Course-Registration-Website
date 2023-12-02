@@ -11,6 +11,9 @@
             <RouterLink to="/register">Register for Course</RouterLink>
           </li>
           <li>
+            <RouterLink to="/StudentUnenroll">Unenroll from a Course</RouterLink>
+          </li>
+          <li>
             <RouterLink to="/course">View Courses</RouterLink>
           </li>
           <li>
@@ -21,6 +24,12 @@
           </li>
           <li>
             <RouterLink to="/usersearch">Search for User</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/StudentSchedule">View Student Schedule</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/ProfessorSchedule">View and Edit Instructor Schedule</RouterLink>
           </li>
         </ul>
       </div>

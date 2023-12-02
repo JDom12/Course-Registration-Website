@@ -1,17 +1,20 @@
 import boto3
 import json
+from mock_dynamodb_setup import setup_fall_semester_table
 
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('Fall_Semester')  # table tbd
+
+
 
 def lambda_handler(event, context):
+    dynamodb = boto3.resource('dynamodb')
+    table = setup_fall_semester_table(dynamodb)
 
     class_id = event.get('class_id')
     class_name = event.get('class_name')
     instructor = event.get('instructor')
     room = event.get('room')  
     meeting_time = event.get('meeting_time')
-    pre_requisites = event.get('pre_requisites')  
+    pre_requisites = event.get('pre_requisites', [])  
     search_tags = event.get('search_tags')  
     max_enrollment = event.get('max_enrollment')
  
@@ -23,11 +26,15 @@ def lambda_handler(event, context):
             'statusCode': 400,
             'body': json.dumps('Error: Missing required field.')
         }
+    
+    available_seats = max_enrollment
 
     if isinstance(room, str):
         room = [room]
     if isinstance(search_tags, str):
         search_tags = [search_tags]
+    if isinstance(pre_requisites, str):
+        pre_requisites = [pre_requisites]
 
     try:
         response = table.put_item(
@@ -40,7 +47,8 @@ def lambda_handler(event, context):
                 'pre_requisites': pre_requisites,
                 'search_tags': search_tags,
                 'max_enrollment': max_enrollment,
-                'roster': roster
+                'roster': roster,
+                'available_seats' : available_seats
             }
         )
         return {

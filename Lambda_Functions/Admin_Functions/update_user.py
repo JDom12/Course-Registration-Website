@@ -1,15 +1,16 @@
 import boto3
 import json
-
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('User_List') # List name TBD
+from mock_dynamodb_setup import setup_dynamodb_user_list
 
 def lambda_handler(event, context):
+
+    dynamodb = boto3.resource('dynamodb')
+    table = setup_dynamodb_user_list(dynamodb) 
+
     netID = event.get('netID')
     first_name = event.get('first_name')
     last_name = event.get('last_name')
     email = event.get('email')
-    role = event.get('role')
     prior_courses = event.get('prior_courses')
 
     if not netID:
@@ -20,7 +21,6 @@ def lambda_handler(event, context):
 
     update_expression = "SET"
     attribute_values = {}
-    expression_attribute_names = {}
     if first_name:
         update_expression += " first_name = :first_name,"
         attribute_values[":first_name"] = first_name
@@ -30,10 +30,6 @@ def lambda_handler(event, context):
     if email:
         update_expression += " email = :email,"
         attribute_values[":email"] = email
-    if role:
-        update_expression += " #role_alias = :role," 
-        attribute_values[":role"] = role
-        expression_attribute_names["#role_alias"] = "role"
     if prior_courses:
         update_expression += " prior_courses = :prior_courses,"
         attribute_values[":prior_courses"] = prior_courses
@@ -47,7 +43,6 @@ def lambda_handler(event, context):
             },
             UpdateExpression=update_expression,
             ExpressionAttributeValues=attribute_values,
-            ExpressionAttributeNames=expression_attribute_names
             )
         return {
             'statusCode': 200,
