@@ -1,5 +1,6 @@
 <template>
   <header class="app-header">
+<<<<<<< HEAD
     <div>
       <h1>{{ title }}</h1>
       <nav>
@@ -38,22 +39,23 @@
         </ul>
       </nav>
     </div>
+=======
+    <img src="/husky_qa.jpeg" alt="Logo" class="logo">
+    <h1>{{ title }}</h1>
+>>>>>>> css-changes
   </header>
 </template>
 
 <script setup>
-// import the <RouterLink> component so that we can use it in the template above
-import { RouterLink } from "vue-router";
-// give this component a title property so that the parent component (app.vue) can set whatever title it wants
+import { defineProps } from 'vue';
+
 defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
+  title: String 
 });
 </script>
 
 <style>
+<<<<<<< HEAD
 /* give the header itself a background color, a border, and add some padding to the content */
 .app-header {
   background-color: #dcdcdc;
@@ -61,8 +63,19 @@ defineProps({
   padding: 1rem;
 }
 /* make the title within the header a larger and bolder font */
+=======
+
+>>>>>>> css-changes
 .app-header h1 {
-  font-size: 2rem;
-  font-weight: bold;
+  color: #ffffff; 
+  text-align: center; 
+  font-family: 'Arial', sans-serif; 
+  font-size: 24px; 
+  margin-left: 500px; 
+  padding: 0; 
+}
+.app-header {
+  display: flex; /* Enable items to be on same line */
+  align-items: center; /* Vertically align items in the middle */
 }
 </style>

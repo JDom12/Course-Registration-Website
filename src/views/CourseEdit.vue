@@ -7,7 +7,7 @@
           <input type="text" id="courseName" v-model="courseName"/>
           <button type="submit">Load</button>
       </form>
-      <div v-if="isDataAvailable()">
+      <div v-if="displaycourse.length > 0">
           <h3>Course Information:</h3>
           <table>
               <thead>
@@ -74,12 +74,6 @@ const data = ref([]);
 const message_fetch = ref("");
 const message_submit = ref("");
 
-function isDataAvailable() {
-const condition = data.value && data.value.length > 0;
-console.log('Is data available:', condition);
-return condition;
-}
-
 function FetchCourse() {
   const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
   const path = '/classes/details';
@@ -127,10 +121,25 @@ const url = `${endpointURL}${path}`;
 const courseDataToUpdate = { ...newCourse.value };
 
 for (const key in courseDataToUpdate) {
-  if (courseDataToUpdate[key] == '') {
+  //additional logic for certain attributes stored in lists
+  if (key == "pre_requisites" && courseDataToUpdate["pre_requisites"] !== ''){
+    let split_string = newCourse.value[key].split(", ");
+    courseDataToUpdate[key] = split_string;
+  } 
+  if (key == "room" && courseDataToUpdate["room"] !== ''){
+    let split_string = newCourse.value[key].split(", ");
+    courseDataToUpdate[key] = split_string;
+  } 
+  if (key == "search_tags" && courseDataToUpdate["search_tags"] !== ''){
+    let split_string = newCourse.value[key].split(", ");
+    courseDataToUpdate[key] = split_string;
+  } 
+  //pass in fetched data if nothing is to be changed
+  else if (courseDataToUpdate[key] == '') {
     courseDataToUpdate[key] = data.value[0][key];
   }
 }
+
 fetch(url, {
   method: 'PUT', 
   headers: {
@@ -155,10 +164,10 @@ const courses = data.value.map((course) => {
     class_name: course.class_name,
     class_id: course.class_id,
     instructor: course.instructor,
-    room: course.room,
+    room: course.room.join(", "),
     meeting_time: course.meeting_time,
-    pre_requisites: course.pre_requisites,
-    search_tags: course.search_tags,
+    pre_requisites: course.pre_requisites.join(", "),
+    search_tags: course.search_tags.join(", "),
     max_enrollment: course.max_enrollment,
   };
 });

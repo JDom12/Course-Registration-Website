@@ -20,6 +20,7 @@ a:hover {
 
 }
 
+<<<<<<< HEAD
 /* give headings and form labels a default color that is dark and has strong contrast against the background */
 :is(h1, label) {
   color: rgb(13, 20, 99);
@@ -40,4 +41,103 @@ a:hover {
 body { background: rgb(13, 20, 99) }
 h2 { color: rgb(255, 255, 255) }
 
+=======
+/* text color heading */
+:is(h1, h2, h3, h4, h5, h6, label) {
+  color: #202020;
+}
+
+/* text color li */
+p, li {
+  color: #646464;
+}
+
+#app {
+  font-family: 'Source Sans Pro', sans-serif; 
+}
+
+.header {
+  background-color: #2c3e50; 
+  color: #fff;
+  padding: 10px 20px;
+  text-align: left;
+  padding-top: 50px; 
+  padding-bottom: 50px; 
+}
+.app-header {
+  background-color: #01264d;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  padding: 10px 20px;
+}
+
+.main {
+  display: flex;
+}
+
+.sidebar {
+  width: 200px; 
+  background-color: #34495e; 
+  color: #ffffff;
+  height: 100vh; 
+  box-sizing: border-box;
+  padding: 20px;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.sidebar a {
+  color: #ffffff; 
+  text-decoration: none;
+  display: block;
+  margin: 10px 0;
+}
+
+.sidebar a:hover {
+  text-decoration: underline;
+  color: #5d81a5;
+}
+
+.content {
+  flex-grow: 1;
+  background-color: #ecf0f1; 
+  padding: 20px;
+  overflow-y: auto; 
+}
+
+.logo {
+  height: 50px; 
+  margin-right: 20px;
+}
+
+.sidebar ul {
+  list-style-type: none; 
+  padding-left: 0; 
+  margin: 0; 
+}
+
+.sidebar li {
+  transition: background-color 0.2s ease-in-out; 
+}
+
+.sidebar li a {
+  display: block; 
+  padding: 10px 20px; 
+  color: #ffffff; /* Sets the text color */
+  text-decoration: none; 
+  transition: color 0.2s ease-in-out; /* Smooth transition for the text color */
+}
+
+/* Hover effect for the entire list item, including the link */
+.sidebar li:hover, .sidebar li:hover a {
+  background-color: #5d81a5; 
+  color: #ffffff; 
+}
+
+/* Style to apply for the current active route link */
+.sidebar .router-link-active, .sidebar .router-link-active a {
+  background-color: #3b5998; 
+  color: #ffffff; 
+}
+>>>>>>> css-changes
 
