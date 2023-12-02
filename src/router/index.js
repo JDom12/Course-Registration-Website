@@ -65,13 +65,12 @@ const router = createRouter({
       path: "/usersearch",
       name: "usersearch",
       component: UserSearchView,
-    }
+    },
     {
       path: "/course_creation",
       name: "course_creation",
       component: CreationView,
-    },
-
+    }
   ],
 });
 
