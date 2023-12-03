@@ -50,6 +50,9 @@ import AppHeader from "./components/AppHeader.vue";
 import { RouterView } from "vue-router";
 import { useAuth0 } from '@auth0/auth0-vue';
 export default{
+  components: {
+    "AppHeader":AppHeader
+  },
   setup() {
     const auth0 = useAuth0();
     return {
