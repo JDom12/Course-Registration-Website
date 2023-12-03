@@ -67,6 +67,7 @@
       })
       .then(response => response.json())
       .then(data => {
+        apiResponse.value = data.body;
         ids.value = JSON.parse(data.body); 
       })
       .catch(error => {
@@ -97,7 +98,7 @@
       .then(response => response.json())
       .then(data => {
         apiResponse.value = data.body;
-        ids.value.push(class_name);
+        ids.value.push(data.body);
         courseName.value = "";
       })
       .catch(error => {
