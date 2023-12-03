@@ -32,6 +32,9 @@
             <RouterLink to="/StudentSchedule">View Student Schedule</RouterLink>
           </li>
           <li v-if="user.userroles == 'isAdmin'">
+            <RouterLink to="/AdminRegister">Register for a Student</RouterLink>
+          </li>
+          <li v-if="user.userroles == 'isAdmin'">
             <RouterLink to="/AdminSchedule">View Student's Schedule</RouterLink>
           </li>
           <li v-if="user.userroles == 'isProfessor' || user.userroles == 'isAdmin'">
