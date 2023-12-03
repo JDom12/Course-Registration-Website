@@ -7,19 +7,19 @@
           <li>
             <RouterLink to="/">Home</RouterLink>
           </li>
-          <li v-if="user.userroles == 'isStudent' || user.userroles == 'isAdmin'">
+          <li v-if="user.userroles == 'isStudent'">
             <RouterLink to="/register">Register for Course</RouterLink>
           </li>
-          <li v-if="user.userroles == 'isStudent' || user.userroles == 'isAdmin'">
+          <li v-if="user.userroles == 'isStudent'">
             <RouterLink to="/StudentUnenroll">Unenroll from a Course</RouterLink>
           </li>
           <li v-if="isAuthenticated">
             <RouterLink to="/course">View Courses</RouterLink>
           </li>
-          <li v-if="user.userroles == 'isProf' || user.userroles == 'isAdmin'">
+          <li v-if="user.userroles == 'isProfessor' || user.userroles == 'isAdmin'">
             <RouterLink to=/course_creation>Add a Course</RouterLink>
           </li>
-          <li v-if="user.userroles == 'isProf' || user.userroles == 'isAdmin'">
+          <li v-if="user.userroles == 'isProfessor' || user.userroles == 'isAdmin'">
             <RouterLink to="/edit">Edit Courses</RouterLink>
           </li>
           <li v-if="user.userroles == 'isAdmin'">
@@ -31,7 +31,7 @@
           <li v-if="user.userroles == 'isStudent' || user.userroles == 'isAdmin'">
             <RouterLink to="/StudentSchedule">View Student Schedule</RouterLink>
           </li>
-          <li v-if="user.userroles == 'isProf' || user.userroles == 'isAdmin'">
+          <li v-if="user.userroles == 'isProfessor' || user.userroles == 'isAdmin'">
             <RouterLink to="/ProfessorSchedule">View and Edit Instructor Schedule</RouterLink>
           </li>
         </ul>
@@ -42,6 +42,7 @@
         <RouterView />
       </div>
     </div>
+    <code>{{ user }}</code>
   </div>
 </template>
 

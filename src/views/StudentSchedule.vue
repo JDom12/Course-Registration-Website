@@ -2,13 +2,8 @@
     <main class="fetch">
       <h2>Student Schedule</h2>
       <p>
-        Please enter your studentID to load your coarse schedule 
+        Please enter your studentID to load your course schedule 
       </p>
-      <form @submit.prevent="studentLogin" class="studentLogin">
-        <label for="login">Enter Student ID to load classes</label>
-        <input type="text" id="studentid" name="Student" v-model="studentName" />
-        <button type="submit">Load</button>
-      </form>
       <table v-if="displaycourse.length > 0">
         <thead>
           <tr>
@@ -36,12 +31,15 @@
 
 <script setup>
 import { ref,computed } from "vue";
-const studentName = ref("");
+import { useAuth0} from "@auth0/auth0-vue";
+const auth0 = useAuth0();
+const user = auth0.user;
+const studentName = user._rawValue.name;
 const data = ref([]);
 
 
 function studentLogin() {
-  const netID = studentName.value.trim();
+  const netID = studentName;
   const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
   const path = '/RegisteredClasses'
 
@@ -75,6 +73,7 @@ const displaycourse = computed(() =>
       };
     })
 )
+studentLogin();
 </script>
 
 <style>
