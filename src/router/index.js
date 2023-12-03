@@ -12,6 +12,7 @@ import StudentSchedule from "../views/StudentSchedule.vue";
 import ProfessorSchedule from "../views/ProfessorSchedule.vue";
 import StudentUnenroll from "../views/StudentUnenroll.vue";
 import CreationView from "../views/CreationView.vue";
+import AdminStudentSchedule from "../views/AdminStudentScheduleView.vue";
 
 const router = createRouter({
   // the history mode determines how vue router interacts with the url.
@@ -66,6 +67,11 @@ const router = createRouter({
       path: "/StudentSchedule",
       name: "StudentSchedule",
       component: StudentSchedule
+    },
+    {
+      path: "/AdminSchedule",
+      name: "AdminStudentSchedule",
+      component: AdminStudentSchedule
     },
     {
       path: "/ProfessorSchedule",
