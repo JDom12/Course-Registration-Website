@@ -14,6 +14,7 @@ import StudentUnenroll from "../views/StudentUnenroll.vue";
 import CreationView from "../views/CreationView.vue";
 import AdminStudentSchedule from "../views/AdminStudentSchedule.vue";
 import AdminRegister from "../views/AdminRegisterView.vue";
+import AdminProfessorSchedule from "../views/AdminProfessorSchedule.vue";
 
 const router = createRouter({
   // the history mode determines how vue router interacts with the url.
@@ -88,7 +89,12 @@ const router = createRouter({
       path: "/AdminRegister",
       name: "AdminRegister",
       component: AdminRegister
-    }
+    },
+    {
+      path: "/AdminProfessorSchedule",
+      name: "AdminProfessorSchedule",
+      component: AdminProfessorSchedule
+    },
   ],
 });
 
