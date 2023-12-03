@@ -12,8 +12,8 @@ import StudentSchedule from "../views/StudentSchedule.vue";
 import ProfessorSchedule from "../views/ProfessorSchedule.vue";
 import StudentUnenroll from "../views/StudentUnenroll.vue";
 import CreationView from "../views/CreationView.vue";
-import AdminStudentSchedule from "../views/AdminStudentScheduleView.vue";
-import AdminRegister from "../views/AdminRegister.vue";
+import AdminStudentSchedule from "../views/AdminStudentSchedule.vue";
+import AdminRegister from "../views/AdminRegisterView.vue";
 
 const router = createRouter({
   // the history mode determines how vue router interacts with the url.
