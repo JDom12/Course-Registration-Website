@@ -137,9 +137,15 @@
     margin-bottom: 1rem;
   }
   /* add borders to the table and its top row */
-  .fetch table,
-  .fetch thead {
+  .fetch table{
     border: 1px solid #d9d9d9;
+    color: #0D1463;
+    background-color: #668aeb;
+    
+  }
+  .fetch thead {
+    background-color: #344e96;
+    color: #ffffff;
   }
   /* setup the spacing and the text alignment of the table headers and table cells */
   .fetch :is(th, td) {
@@ -149,6 +155,10 @@
   }
   /* make even numbered rows an off-white color to make the table more legible */
   .fetch tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #90aeff;
+    color:#0D1463;
+    
   }
   </style>
+
+  

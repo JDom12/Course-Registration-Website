@@ -1,16 +1,18 @@
 import boto3
 import json
+from mock_dynamodb_setup import setup_dynamodb_user_list
 
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('User_List')  
 def lambda_handler(event, context):
+
+    dynamodb = boto3.resource('dynamodb')
+    table = setup_dynamodb_user_list(dynamodb)
 
     netID = event.get('netID') 
     
-    if not id:
+    if not netID:
         return {
             'statusCode': 400,
-            'body': json.dumps('Error: Missing ID field.')
+            'body': json.dumps('Error: Missing netID field.')
         }
 
    

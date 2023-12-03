@@ -8,7 +8,10 @@ import CourseView from "../views/CourseView.vue";
 import CourseEdit from "../views/CourseEdit.vue";
 import UserManageView from "../views/UserManageView.vue";
 import UserSearchView from "../views/UserSearchView.vue";
-
+import StudentSchedule from "../views/StudentSchedule.vue";
+import ProfessorSchedule from "../views/ProfessorSchedule.vue";
+import StudentUnenroll from "../views/StudentUnenroll.vue";
+import CreationView from "../views/CreationView.vue";
 
 const router = createRouter({
   // the history mode determines how vue router interacts with the url.
@@ -40,6 +43,11 @@ const router = createRouter({
       component: CourseView,
     },
     {
+      path: "/StudentUnenroll",
+      name: "StudentUnenroll",
+      component: StudentUnenroll,
+    },
+    {
       path: "/edit",
       name: "edit",
       component: CourseEdit,
@@ -53,6 +61,21 @@ const router = createRouter({
       path: "/usersearch",
       name: "usersearch",
       component: UserSearchView,
+    },
+    {
+      path: "/StudentSchedule",
+      name: "StudentSchedule",
+      component: StudentSchedule
+    },
+    {
+      path: "/ProfessorSchedule",
+      name: "ProfessorSchedule",
+      component: ProfessorSchedule
+    },
+    {
+      path: "/course_creation",
+      name: "course_creation",
+      component: CreationView,
     }
   ],
 });

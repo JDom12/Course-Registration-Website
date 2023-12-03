@@ -155,43 +155,32 @@ function unregisterCourse(index) {
 </script>
 
 <style>
-.form {
-  padding: 1rem;
-}
-
-.form h2 {
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.form p {
-  margin-bottom: 1rem;
-}
-
-/* flex layouts allow us to position elements next to each other that would otherwise have been on top of each other */
-.form ul {
-  display: flex;
-  gap: 1rem;
-  flex-direction: column;
-}
-.form li {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-/* create some space beneath the create todo form */
-.form form {
-  margin-bottom: 1rem;
-}
-
-/* set some default styling to buttons and inputs for borders, heights, and padding */
-.form :is(input, button) {
-  line-height: 2rem;
-  padding-inline: 0.5rem;
-  border-radius: 0.375rem;
-  border: 1px solid #d9d9d9;
-  margin-left: 0.5rem;
-  color: #202020;
-}
+  /* add padding around the page */
+  .fetch {
+    padding: 1rem;
+  }
+  /* make the heading font larger and add spacing below */
+  .fetch h2 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  /* add spacing below the text */
+  .fetch p {
+    margin-bottom: 1rem;
+  }
+  /* add borders to the table and its top row */
+  .fetch table,
+  .fetch thead {
+    border: 1px solid #d9d9d9;
+  }
+  /* setup the spacing and the text alignment of the table headers and table cells */
+  .fetch :is(th, td) {
+    text-align: left;
+    padding: 0.25rem 0.75rem;
+    min-width: 10rem;
+  }
+  /* make even numbered rows an off-white color to make the table more legible */
+  .fetch tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
 </style>

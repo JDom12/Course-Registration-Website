@@ -31,11 +31,11 @@
           </tbody>
           <tfoot>
             <tr>
-              <td><!-- No input needed for class_name --></td> 
+              <td>Immutable</td> 
               <td><input type="text" v-model="newUser.first_name" placeholder="First Name"></td>
               <td><input type="text" v-model="newUser.last_name" placeholder="Last Name"></td>
               <td><input type="text" v-model="newUser.email" placeholder="Email"></td>
-              <td><input type="text" v-model="newUser.role" placeholder="role"></td>
+              <td>Immutable</td>
               <td><button @click="userChange">Submit</button></td>
             </tr>
           </tfoot>

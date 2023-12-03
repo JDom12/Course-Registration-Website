@@ -1,10 +1,13 @@
 import boto3
 import json
+from mock_dynamodb_setup import setup_fall_semester_table
 
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('Fall_Semester')  # table name 
+
 
 def lambda_handler(event, context):
+    dynamodb = boto3.resource('dynamodb')
+    table = setup_fall_semester_table(dynamodb)
+
     class_name = event.get('class_name')
     
     if not class_name:
@@ -22,7 +25,7 @@ def lambda_handler(event, context):
         item = response.get('Item')
         if not item:
             return {
-                'statusCode': 404,
+                'statusCode': 400,
                 'body': json.dumps(f'Error: No class found with class_name: {class_name}.')
             }
     except Exception as e:

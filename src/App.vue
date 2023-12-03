@@ -10,8 +10,14 @@
           <li v-if="user.userroles == 'isStudent' || user.userroles == 'isAdmin'">
             <RouterLink to="/register">Register for Course</RouterLink>
           </li>
+          <li>
+            <RouterLink to="/StudentUnenroll">Unenroll from a Course</RouterLink>
+          </li>
           <li v-if="isAuthenticated">
             <RouterLink to="/course">View Courses</RouterLink>
+          </li>
+          <li>
+            <RouterLink to=/course_creation>Add a Course</RouterLink>
           </li>
           <li v-if="user.userroles == 'isProfessor' || user.userroles == 'isAdmin'">
             <RouterLink to="/edit">Edit Courses</RouterLink>
@@ -21,6 +27,12 @@
           </li>
           <li v-if="user.userroles == 'isAdmin'">
             <RouterLink to="/usersearch">Search for User</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/StudentSchedule">View Student Schedule</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/ProfessorSchedule">View and Edit Instructor Schedule</RouterLink>
           </li>
         </ul>
         <b-button @click="login" v-if="!isAuthenticated">Log In</b-button>
@@ -63,15 +75,10 @@ export default{
   display: grid;
   grid-template-columns: 250px 1fr;
 }
-
 .app-sidebar {
   /* Sidebar styles */
   background-color: #f5f5f5;
   padding: 20px;
   border-right: 1px solid #ccc;
-}
-
-.app-content {
-  /* Styles for the main content area */
 }
 </style>
