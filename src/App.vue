@@ -48,7 +48,6 @@
         <RouterView />
       </div>
     </div>
-    <code>{{ user }}</code>
   </div>
 </template>
 

@@ -34,9 +34,11 @@
         the current status of the system (working), and doesn't make them wonder if something
         has gone wrong
        -->
+      <!--
       <li v-if="ids.length == 0">
         <p>No courses yet, go ahead and register for one!</p>
       </li>
+      -->
     </ul> 
   </main>
 </template>

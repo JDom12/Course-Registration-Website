@@ -2,7 +2,7 @@
     <main class="fetch">
       <h2>Student Schedule</h2>
       <p>
-        Please enter your studentID to load your course schedule 
+        Spring 2024 Course Schedule 
       </p>
       <table v-if="displaycourse.length > 0">
         <thead>
