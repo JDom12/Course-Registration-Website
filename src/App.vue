@@ -37,8 +37,11 @@
           <li v-if="user.userroles == 'isAdmin'">
             <RouterLink to="/AdminSchedule">View Student's Schedule</RouterLink>
           </li>
-          <li v-if="user.userroles == 'isProfessor' || user.userroles == 'isAdmin'">
+          <li v-if="user.userroles == 'isProfessor'">
             <RouterLink to="/ProfessorSchedule">View and Edit Instructor Schedule</RouterLink>
+          </li>
+          <li v-if="user.userroles == 'isAdmin'">
+            <RouterLink to="/AdminProfessorSchedule">View and Edit Instructor Schedule</RouterLink>
           </li>
         </ul>
         <b-button @click="login" v-if="!isAuthenticated">Log In</b-button>
