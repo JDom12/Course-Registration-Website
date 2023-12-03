@@ -1,7 +1,13 @@
 <template>
     <main class="fetch">
         <h2>View and Edit your Courses</h2>
-        <p>Professor Spring 2024 Schedule:</p>
+        <p>Load Schedule Information:</p>
+        <form @submit.prevent="FetchCourse" class="FetchCourse">
+            <label for="instructorID">Enter instructor name to load course:</label>
+            <input type="text" id="instructorID" v-model="instructorID"/>
+            <button type="submit">Load</button>
+        </form>
+            <h3>Course Information:</h3>
             <table v-if="displaycourse.length > 0">
                 <thead>
                     <tr>
@@ -38,9 +44,7 @@
   
   <script setup>
   import { ref, computed } from "vue";
-  import { useAuth0 } from '@auth0/auth0-vue';
-  const auth0 = useAuth0();
-  const user = auth0.user;
+  
   const newCourse = ref({
   class_name: '',
   class_id: '',
@@ -53,13 +57,13 @@
   available_seats: null
   });
   
-  const instructorID = user._rawValue.name;
+  const instructorID = ref("");
   const data = ref([]); 
   const message_fetch = ref("");
   const message_submit = ref("");
   
 function FetchCourse() {
-    const netID = instructorID;
+    const netID = instructorID.value.trim();
     const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
     const path = '/instructor'
 
@@ -142,7 +146,6 @@ const courses = data.value.map((course) => {
     available_seats: course.available_seats
     };
 });
-FetchCourse();
 console.log(courses); 
 return courses;
 });

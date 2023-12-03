@@ -2,8 +2,13 @@
     <main class="fetch">
       <h2>Student Schedule</h2>
       <p>
-        Spring 2024 Course Schedule 
+        Please enter a studentID to load that student's schedule 
       </p>
+      <form @submit.prevent="studentLogin" class="studentLogin">
+        <label for="login">Enter Student ID to load classes </label>
+        <input type="text" id="studentid" name="Student" v-model="studentName" />
+        <button type="submit">Load</button>
+      </form>
       <table v-if="displaycourse.length > 0">
         <thead>
           <tr>
@@ -31,21 +36,14 @@
 
 <script setup>
 import { ref,computed } from "vue";
-import { useAuth0} from "@auth0/auth0-vue";
-const auth0 = useAuth0();
-const user = auth0.user;
-const studentName = user._rawValue.name;
+const studentName = ref("");
 const data = ref([]);
-
-
 function studentLogin() {
-  const netID = studentName;
+  const netID = studentName.value.trim();
   const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
   const path = '/RegisteredClasses'
-
   if (netID !== ""){
     const url = `${endpointURL}${path}?netID=${encodeURIComponent(netID)}`;
-
     fetch(url,{
       method: 'GET',
       headers: {
@@ -73,23 +71,19 @@ const displaycourse = computed(() =>
       };
     })
 )
-studentLogin();
 </script>
 
 <style>
 .form {
   padding: 1rem;
 }
-
 .form h2 {
   font-size: 1.5rem;
   margin-bottom: 2rem;
 }
-
 .form p {
   margin-bottom: 1rem;
 }
-
 /* flex layouts allow us to position elements next to each other that would otherwise have been on top of each other */
 .form ul {
   display: flex;
@@ -101,12 +95,10 @@ studentLogin();
   gap: 0.5rem;
   align-items: center;
 }
-
 /* create some space beneath the create todo form */
 .form form {
   margin-bottom: 1rem;
 }
-
 /* set some default styling to buttons and inputs for borders, heights, and padding */
 .form :is(input, button) {
   line-height: 2rem;

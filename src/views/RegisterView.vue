@@ -2,13 +2,8 @@
   <main class="form">
     <h2>Register for a Course</h2>
     <p>
-      Please enter your studentID and the courseID for the desired course. 
+      Please enter the courseID for the desired course. 
     </p>
-    <form @submit.prevent="studentLogin" class="studentLogin">
-      <label for="login">Enter Student ID to load classes</label>
-      <input type="text" id="studentid" name="Student" v-model="studentName" />
-      <button type="submit">Load</button>
-    </form>
     <form @submit.prevent="registerCourse" class="registerCourse">
       <label for="registration">Register for Course</label>
       <input type="text" id="courseid" name="Course" v-model="courseName" />
@@ -39,29 +34,31 @@
         the current status of the system (working), and doesn't make them wonder if something
         has gone wrong
        -->
+      <!--
       <li v-if="ids.length == 0">
         <p>No courses yet, go ahead and register for one!</p>
       </li>
-    </ul>
+      -->
+    </ul> 
   </main>
 </template>
 
 <script setup>
 import { ref } from "vue";
-const studentName = ref("");
+import { useAuth0 } from '@auth0/auth0-vue';
+const auth0 = useAuth0();
+const user = auth0.user;
 const courseName = ref("");
 const ids = ref([]);
 const apiResponse = ref("");
 
 // function to run when the create todo form is submitted
 function studentLogin() {
-  const netID = studentName.value.trim();
+  const netID = user._rawValue.name;
   const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
   const path = '/RegisteredClasses'
-
   if (netID !== ""){
     const url = `${endpointURL}${path}?netID=${encodeURIComponent(netID)}`;
-
     fetch(url,{
       method: 'GET',
       headers: {
@@ -82,8 +79,7 @@ function studentLogin() {
 function registerCourse() {
   // sanitize the input by removing the whitespace from the beginning and end of the input values
   const class_name = courseName.value.trim();
-  const netID = studentName.value.trim();
-
+  const netID = user._rawValue.name;
   const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
 
   const path = '/registration'; 
@@ -91,7 +87,6 @@ function registerCourse() {
   if (class_name !== "") {
     
     const url = `${endpointURL}${path}`;
-
     // Make POST request
     fetch(url, {
       method: 'POST',
@@ -120,12 +115,10 @@ function registerCourse() {
 // Array.splice takes an index in the array and a number of items to delete after that
 function unregisterCourse(index) {
   const courseToRemove = ids.value.splice(index, 1)[0]; 
-  const studentToRemove = studentName.value.trim();
-
+  const studentToRemove = user._rawValue.name;
   const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1';
   const path = '/DropCourse'; 
   const url = `${endpointURL}${path}`;
-
   fetch(url, {
     method: 'POST', 
     headers: {
@@ -150,6 +143,7 @@ function unregisterCourse(index) {
     ids.value.splice(index, 0, courseToRemove); // Re-add the course if there was an error
   });
 }
+studentLogin();
 </script>
 
 <style>

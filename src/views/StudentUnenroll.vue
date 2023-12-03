@@ -1,11 +1,8 @@
 <template>
     <main class="form">
         <h2>Unregister from a Course</h2>
-        <p>Please enter your studentID and the courseID for the course you wish to unregister from.</p>
+        <p>Please enter the courseID for the course you wish to unregister from.</p>
         <form @submit.prevent="unregisterCourse" class="unregisterCourse">
-            <label for="studentid">Enter Student ID:</label>
-            <input type="text" id="studentid" v-model="studentName" />
-        
             <label for="courseid">Enter Course ID:</label>
             <input type="text" id="courseid" v-model="courseName" />
   
@@ -18,12 +15,15 @@
   
 <script setup>
     import { ref } from "vue";
-    const studentName = ref("");
+    import { useAuth0} from "@auth0/auth0-vue";
+    const auth0 = useAuth0();
+    const user = auth0.user;
+    const studentName = user._rawValue.name;
     const courseName = ref("");
     const apiResponse = ref("");
     
     function unregisterCourse() {
-        const netID = studentName.value.trim();
+        const netID = studentName;
         const class_name = courseName.value.trim();
     
         const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1';
