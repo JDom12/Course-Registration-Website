@@ -130,25 +130,28 @@ function submitCourse() {
         console.error('Error:', error);
         message_fetch.value = `error updating course: ${error.message}`;
     });
-    }
   
+    console.log(courses); 
+    return courses;
+};
 const displaycourse = computed(() => {
-const courses = data.value.map((course) => {
+  if (!Array.isArray(data.value)) {
+    return [];
+  }
+  return data.value.map((course) => {
     return {
-    class_name: course.class_name,
-    class_id: course.class_id,
-    instructor: course.instructor,
-    room: course.room.join(", "),
-    meeting_time: course.meeting_time,
-    pre_requisites: course.pre_requisites.join(", "),
-    search_tags: course.search_tags.join(", "),
-    max_enrollment: course.max_enrollment,
-    available_seats: course.available_seats
+      class_name: course.class_name,
+      class_id: course.class_id,
+      instructor: course.instructor,
+      room: course.room.join(', '),
+      search_tags: course.search_tags.join(', '),
+      pre_requisites: course.pre_requisites.join(', '),
+      meeting_time: course.meeting_time,
+      available_seats: course.available_seats
     };
+  });
 });
-console.log(courses); 
-return courses;
-});
+
 </script>
   
   <style>

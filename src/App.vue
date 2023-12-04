@@ -7,38 +7,41 @@
           <li>
             <RouterLink to="/">Home</RouterLink>
           </li>
-          <li v-if="user.userroles == 'isStudent'">
+          <li v-if="user && user.userroles == 'isStudent'">
             <RouterLink to="/register">Register for Course</RouterLink>
           </li>
-          <li v-if="user.userroles == 'isStudent'">
+          <li v-if="user && user.userroles == 'isStudent'">
             <RouterLink to="/StudentUnenroll">Unenroll from a Course</RouterLink>
           </li>
           <li v-if="isAuthenticated">
             <RouterLink to="/course">View Courses</RouterLink>
           </li>
-          <li v-if="user.userroles == 'isProfessor' || user.userroles == 'isAdmin'">
+          <li v-if="user && (user.userroles == 'isProfessor' || user.userroles == 'isAdmin')">
             <RouterLink to=/course_creation>Add a Course</RouterLink>
           </li>
-          <li v-if="user.userroles == 'isProfessor' || user.userroles == 'isAdmin'">
+          <li v-if="user && (user.userroles == 'isProfessor' || user.userroles == 'isAdmin')">
             <RouterLink to="/edit">Edit Courses</RouterLink>
           </li>
-          <li v-if="user.userroles == 'isAdmin'">
+          <li v-if="user && user.userroles == 'isAdmin'">
             <RouterLink to="/usermanage">Manage Users</RouterLink>
           </li>
-          <li v-if="user.userroles == 'isAdmin'">
+          <li v-if="user && user.userroles == 'isAdmin'">
             <RouterLink to="/usersearch">Search for User</RouterLink>
           </li>
-          <li v-if="user.userroles == 'isStudent'">
+          <li v-if="user && user.userroles == 'isStudent'">
             <RouterLink to="/StudentSchedule">View Student Schedule</RouterLink>
           </li>
-          <li v-if="user.userroles == 'isAdmin'">
+          <li v-if="user && user.userroles == 'isAdmin'">
             <RouterLink to="/AdminRegister">Register for a Student</RouterLink>
           </li>
-          <li v-if="user.userroles == 'isAdmin'">
+          <li v-if="user && user.userroles == 'isAdmin'">
             <RouterLink to="/AdminSchedule">View Student's Schedule</RouterLink>
           </li>
-          <li v-if="user.userroles == 'isProfessor' || user.userroles == 'isAdmin'">
+          <li v-if="user && user.userroles == 'isProfessor'">
             <RouterLink to="/ProfessorSchedule">View and Edit Instructor Schedule</RouterLink>
+          </li>
+          <li v-if="user && user.userroles == 'isAdmin'">
+            <RouterLink to="/AdminProfessorSchedule">View and Edit a Instructor's Schedule</RouterLink>
           </li>
         </ul>
         <b-button @click="login" v-if="!isAuthenticated">Log In</b-button>

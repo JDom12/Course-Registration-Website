@@ -63,7 +63,7 @@ function createTodo() {
     })
     .then(response => response.json())
     .then(data => {
-    apiResponse.value = data.body;
+      apiResponse.value = JSON.parse(data.body);
       // Reset fields after submission
       classname.value = "";
       class_id.value = "";

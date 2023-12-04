@@ -15,34 +15,19 @@
         <button type="submit">Save</button>
       </form>
       <ul>
-        <!--
-          v-for requires a unique key for every element so that it can efficiently keep track
-          of each list item. it is possible for the user to type the same todo more than once,
-          so the todo itself isn't necessarily unique. the index on its own is of course unique,
-          it represents each unique place in the array. there are unfortunately edge case issues
-          with using the index alone that we don't need to get into, so we combine the todo and
-          the index into a unique key that will work in all situations
-        -->
         <li v-if="ids.length > 0">
           <p>Registered Courses for the Fall Semester:</p>
         </li>
-        <li v-if="ids.length > 0">
+        <li v-for="(item, index) in ids" :key="index">
+          {{ item.message }}
+          <button v-if="item.isSuccess" @click="unregisterCourse(item.message, index)">
+             Unregister from Course
+          </button>
         </li>
-        <li v-for="(courseID, index) in ids" :key="courseID + index">
-          {{ courseID }}
-          <button @click="unregisterCourse(index)">Unregister from Course</button>
-        </li>
-  
-        <!--
-          it is a good user experience practice to provide feedback when in an "emtpy state",
-          in this case, where there are no todos to show yet. this informs the user of
-          the current status of the system (working), and doesn't make them wonder if something
-          has gone wrong
-         -->
         <li v-if="ids.length == 0">
           <p>No courses yet, go ahead and register for one!</p>
-        </li>
-      </ul>
+       </li>
+  </ul>
     </main>
   </template>
   
@@ -54,31 +39,39 @@
   const apiResponse = ref("");
   // function to run when the create todo form is submitted
   function studentLogin() {
-    const netID = studentName.value.trim();
-    const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
-    const path = '/RegisteredClasses'
-    if (netID !== ""){
-      const url = `${endpointURL}${path}?netID=${encodeURIComponent(netID)}`;
-      fetch(url,{
-        method: 'GET',
-        headers: {
-          'Content-Type' : 'application/json',
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
+  const netID = studentName.value.trim();
+  const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
+  const path = '/RegisteredClasses';
+  if (netID !== ""){
+    const url = `${endpointURL}${path}?netID=${encodeURIComponent(netID)}`;
+    fetch(url,{
+      method: 'GET',
+      headers: {
+        'Content-Type' : 'application/json',
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
         apiResponse.value = data.body;
-        ids.value = JSON.parse(data.body); 
-      })
-      .catch(error => {
+        const parsedData = JSON.parse(data.body);
+        // Assuming that an error message does not have a 'class_name' property
+        ids.value = parsedData
+          .filter(item => item.class_name && item.isSuccess !== false)
+          .map(item => {
+            return { message: item.class_name, isSuccess: true };
+          });
+    })
+    .catch(error => {
         console.error('There was an error fetching the classes:', error);
-      });
-    };
-  }
+    });
+  };
+}
+
   function registerCourse() {
     // sanitize the input by removing the whitespace from the beginning and end of the input values
     const class_name = courseName.value.trim();
     const netID = studentName.value.trim();
+    apiResponse.value = '';
     const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1'; 
     const path = '/registration'; 
     if (class_name !== "") {
@@ -97,9 +90,13 @@
       })
       .then(response => response.json())
       .then(data => {
-        apiResponse.value = data.body;
-        ids.value.push(data.body);
+        if (data.statusCode === 200) { 
+          ids.value.push({ message: class_name, isSuccess: true });
+        } else {
+          ids.value.push({ message: data.body, isSuccess: false });
+        }
         courseName.value = "";
+        console.log(ids.value);
       })
       .catch(error => {
         // Handle errors
@@ -109,36 +106,36 @@
   }
   // when a todo's delete button is clicked, the index of that todo is passed to this function
   // Array.splice takes an index in the array and a number of items to delete after that
-  function unregisterCourse(index) {
-    const courseToRemove = ids.value.splice(index, 1)[0]; 
-    const studentToRemove = studentName.value.trim();
-    const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1';
-    const path = '/DropCourse'; 
-    const url = `${endpointURL}${path}`;
-    fetch(url, {
-      method: 'POST', 
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        netID: studentToRemove,
-        class_name: courseToRemove
-      })
+  function unregisterCourse(courseName, index) {
+  const studentToRemove = studentName.value.trim();
+  const endpointURL = 'https://7lymtbki38.execute-api.us-east-1.amazonaws.com/Stage_1';
+  const path = '/DropCourse'; 
+  const url = `${endpointURL}${path}`;
+
+  fetch(url, {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      netID: studentToRemove,
+      class_name: courseName 
     })
-    .then(response => response.json())
-    .then(data => {
-      if (data.statusCode === 200) {
-        console.log(data.body); // Successfully unregistered
-      } else {
-        console.error(data.body); // Error unregistering
-        ids.value.splice(index, 0, courseToRemove); // Re-add the course if there was an error
-      }
-    })
-    .catch(error => {
-      console.error("Error unregistering course:", error);
-      ids.value.splice(index, 0, courseToRemove); // Re-add the course if there was an error
-    });
-  }
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.statusCode === 200) {
+      console.log(data.body); // Successfully unregistered
+      ids.value.splice(index, 1); // Remove the course from the list
+    } else {
+      console.error(data.body); // Error unregistering
+    }
+  })
+  .catch(error => {
+    console.error("Error unregistering course:", error);
+  });
+}
+
   </script>
   
   <style>
